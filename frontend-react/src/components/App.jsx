@@ -11,10 +11,12 @@ class App extends React.Component {
     super(props);
     this.state = {
       currentUser: 'Ethan',
+      currentProject: '',
       masterProjectList: []
     }
     this.handleLogout = this.handleLogout.bind(this);
     this.handleAddingNewProject = this.handleAddingNewProject.bind(this);
+    this.handleSettingCurrentProject = this.handleSettingCurrentProject.bind(this);
   }
 
   handleLogout() {    
@@ -27,14 +29,23 @@ class App extends React.Component {
     this.setState({masterProjectList: copyProjectList});
   }
 
+  handleSettingCurrentProject(projectId)
+  {
+    console.log(projectId);
+    console.log('app check');
+    this.setState({currentProject: projectId});
+  }
+
   render() {
+    console.log('current project', this.state.currentProject);
+    console.log(this.state.masterProjectList);
     return(
       <div>
         <Navbar onLogout={this.handleLogout} currentUser={this.state.currentUser}/>
         <div className='container'>
           <Switch>
             <Route exact path='/' render={() => <ProjectList 
-              projectList={this.state.masterProjectList} />} />
+            projectList={this.state.masterProjectList} onSettingCurrentProject={this.handleSettingCurrentProject} />} />
             <Route path='/new-project' render={() => <NewProjectForm  
               onNewProjectCreation={this.handleAddingNewProject} />} />
             <Route path='/sign-in' component={LoginPage} />

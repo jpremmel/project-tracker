@@ -1,7 +1,6 @@
 import React from 'react';
 import 'materialize-css/dist/css/materialize.min.css';
 import { v4 } from 'uuid';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 function NewProjectForm(props) {

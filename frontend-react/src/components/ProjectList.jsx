@@ -10,6 +10,8 @@ function ProjectList(props) {
           title={project.title}
           description={project.description}
           key={project.id}
+          id={project.id}
+          onSettingCurrentProject={props.onSettingCurrentProject}
         />
       )}
     </div>
@@ -17,7 +19,8 @@ function ProjectList(props) {
 }
 
 ProjectList.propTypes = {
-  projectList: PropTypes.array
+  projectList: PropTypes.array,
+  onSettingCurrentProject: PropTypes.func
 };
 
 export default ProjectList;
