@@ -10,7 +10,7 @@ function NewProjectForm(props) {
 
   function addNewProject(event) {
     event.preventDefault();
-    props.onNewProjectCreation({title: _title.value, description: _description.value, id: v4()});
+    props.onNewProjectCreation({title: _title.value, description: _description.value, notes: [], id: v4()});
     _title.value = '';
     _description.value = '';
   }
