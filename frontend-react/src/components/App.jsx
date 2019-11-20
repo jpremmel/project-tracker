@@ -4,6 +4,7 @@ import Navbar from './Navbar';
 import ProjectList from './ProjectList';
 import NewProjectForm from './NewProjectForm';
 import LoginPage from './LoginPage';
+import ProjectDetails from './ProjectDetails';
 
 class App extends React.Component {
 
@@ -29,11 +30,19 @@ class App extends React.Component {
     this.setState({masterProjectList: copyProjectList});
   }
 
-  handleSettingCurrentProject(projectId)
-  {
+  handleSettingCurrentProject(projectId){
     console.log(projectId);
     console.log('app check');
     this.setState({currentProject: projectId});
+  }
+
+  getCurrentProject(){
+    for (let i = 0; i < this.state.masterProjectList.length; i++){
+      if (this.state.currentProject == this.state.masterProjectList[i].id){
+        console.log(this.state.masterProjectList[i]);
+        return this.state.masterProjectList[i];
+      }
+    }
   }
 
   render() {
@@ -45,10 +54,14 @@ class App extends React.Component {
         <div className='container'>
           <Switch>
             <Route exact path='/' render={() => <ProjectList 
-            projectList={this.state.masterProjectList} onSettingCurrentProject={this.handleSettingCurrentProject} />} />
+              projectList={this.state.masterProjectList} 
+              onSettingCurrentProject={this.handleSettingCurrentProject} />} />
             <Route path='/new-project' render={() => <NewProjectForm  
               onNewProjectCreation={this.handleAddingNewProject} />} />
-            <Route path='/sign-in' component={LoginPage} />
+            <Route path='/details' render={() => <ProjectDetails
+              currentProject={this.getCurrentProject()} />} />
+            <Route path='/sign-in' 
+              component={LoginPage} />
           </Switch>
         </div>
       </div>
