@@ -10,14 +10,21 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentUser: 'Ethan'
-
+      currentUser: 'Ethan',
+      masterProjectList: []
     }
     this.handleLogout = this.handleLogout.bind(this);
+    this.handleAddingNewProject = this.handleAddingNewProject.bind(this);
   }
 
   handleLogout() {    
     this.setState({currentUser: ''});
+  }
+
+  handleAddingNewProject(newProject){
+    var copyProjectList = this.state.masterProjectList.slice();
+    copyProjectList.push(newProject);
+    this.setState({masterProjectList: copyProjectList});
   }
 
   render() {
@@ -26,8 +33,10 @@ class App extends React.Component {
         <Navbar onLogout={this.handleLogout} currentUser={this.state.currentUser}/>
         <div className='container'>
           <Switch>
-            <Route exact path='/' component={ProjectList} />
-            <Route path='/new-project' component={NewProjectForm} />
+            <Route exact path='/' render={() => <ProjectList 
+              projectList={this.state.masterProjectList} />} />
+            <Route path='/new-project' render={() => <NewProjectForm  
+              onNewProjectCreation={this.handleAddingNewProject} />} />
             <Route path='/sign-in' component={LoginPage} />
           </Switch>
         </div>
