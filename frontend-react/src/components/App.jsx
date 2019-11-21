@@ -1,5 +1,6 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
+import { v4 } from 'uuid';
 import Navbar from './Navbar';
 import ProjectList from './ProjectList';
 import NewProjectForm from './NewProjectForm';
@@ -28,9 +29,11 @@ class App extends React.Component {
 
 
   handleAddingNewProject(newProject){
-    var copyProjectList = this.state.masterProjectList.slice();
-    copyProjectList.push(newProject);
-    this.setState({masterProjectList: copyProjectList});
+    var newProjectId = v4();
+    var newMasterProjectList = Object.assign({}, this.state.masterProjectList, {
+      [newProjectId]: newProject
+    });
+    this.setState({ masterProjectList: newMasterProjectList});
   }
 
   handleSettingCurrentProject(projectId){
