@@ -2,50 +2,61 @@ import React from 'react';
 import 'materialize-css/dist/css/materialize.min.css';
 import { v4 } from 'uuid';
 import PropTypes from 'prop-types';
+import {Redirect} from 'react-router-dom';
 
-function NewProjectForm(props) {
+class NewProjectForm extends React.Component {
 
-  let _title = null;
-  let _description = null;
-
-  function addNewProject(event) {
-    event.preventDefault();
-    props.onNewProjectCreation({title: _title.value, description: _description.value, notes: [], id: v4()});
-    _title.value = '';
-    _description.value = '';
+  constructor(props){
+    super(props);
+    this.state = {
+      redirect: false
+    };
+    this._title = null;
+    this._description = null;
+    this.addNewProject = this.addNewProject.bind(this);
   }
 
-  var btnParent = {
-    textAlign: 'center',
-    marginTop: '20px'
-  };
-  var btnStyle = {
-    backgroundColor: '#2c2321',
-  };
+  addNewProject(event) {
+    event.preventDefault();
+    this.props.onNewProjectCreation({title: this._title.value, description: this._description.value, notes: [], id: v4()});
+    this._title.value = '';
+    this._description.value = '';
+    this.setState({redirect: true});
+  }
 
-  return (
-    <div>
-      <form onSubmit={addNewProject}>
-        <div className='input-field'>
-          <input
-            id='title'
-            type='text'
-            placeholder='Project Title'
-            ref={(input) => {_title = input;}} />
-        </div>
-        <div className='input-field'>
-          <input
-            id='description'
-            type='text'
-            placeholder='Project Description (ie. job application)'
-            ref={(input) => {_description = input;}} />
-        </div>
-        <div style={btnParent}>
-          <button type='submit' style={btnStyle} className="waves-effect waves-light btn-large"><i className="material-icons right">add</i>Add Project</button>
-        </div>
-      </form>
-    </div>
-  );
+  render() {
+    var btnParent = {
+      textAlign: 'center',
+      marginTop: '20px'
+    };
+    var btnStyle = {
+      backgroundColor: '#2c2321',
+    };
+    return (
+      <div>
+        {this.state.redirect ? <Redirect to='/' /> : ''}
+        <form onSubmit={this.addNewProject}>
+          <div className='input-field'>
+            <input
+              id='title'
+              type='text'
+              placeholder='Project Title'
+              ref={(input) => {this._title = input;}} />
+          </div>
+          <div className='input-field'>
+            <input
+              id='description'
+              type='text'
+              placeholder='Project Description (ie. job application)'
+              ref={(input) => {this._description = input;}} />
+          </div>
+          <div style={btnParent}>
+            <button type='submit' style={btnStyle} className="waves-effect waves-light btn-large"><i className="material-icons right">add</i>Add Project</button>
+          </div>
+        </form>
+      </div>
+    );
+  }
 }
 
 NewProjectForm.propTypes = {

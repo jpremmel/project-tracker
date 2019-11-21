@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Note from './Note';
+import Moment from 'moment';
 
 function NoteList(props) {
   console.log(props.noteList);
@@ -9,7 +10,8 @@ function NoteList(props) {
       {props.noteList.map((thisNote, index) =>
         <Note 
           content={thisNote.note}
-          key={index} />
+          key={index} 
+          timeWritten={thisNote.timeWritten}/>
       )}
     </div>
   );

@@ -14,13 +14,14 @@ class App extends React.Component {
       currentUser: 'Ethan',
       currentProject: '5a115f12-d900-413c-a1d8-685ed36dd758',
       masterProjectList: [
-        {title: "Test Project1", description: "desc 1", notes: [{note: "note1", id: "b8a095a0-644a-4676-a57a-43981706cd94"}], id: "5a115f12-d900-413c-a1d8-685ed36dd758"}
+        {title: "Test Project1", description: "description 1", notes: [], id: "5a115f12-d900-413c-a1d8-685ed36dd758"}
       ]
     };
     this.handleLogout = this.handleLogout.bind(this);
     this.handleAddingNewProject = this.handleAddingNewProject.bind(this);
     this.handleSettingCurrentProject = this.handleSettingCurrentProject.bind(this);
     this.handleAddingNewNote = this.handleAddingNewNote.bind(this);
+    this.handleDeletingProject = this.handleDeletingProject.bind(this);
   }
 
   handleLogout() {    
@@ -47,11 +48,25 @@ class App extends React.Component {
   }
 
   handleAddingNewNote(note){
+    note.timeWritten = (note.timeWritten);
     let copyMasterProjectList = this.state.masterProjectList.slice();
     for (let i = 0; i < copyMasterProjectList.length; i++){
       if (this.state.currentProject == copyMasterProjectList[i].id){
         copyMasterProjectList[i].notes.push(note);
         this.setState({masterProjectList: copyMasterProjectList});
+      }
+    }
+  }
+
+  handleDeletingProject(){
+    console.log('check');
+    console.log(this.state.masterProjectList);
+    let copyMasterProjectList = this.state.masterProjectList.slice();
+    for (let i = 0; i < copyMasterProjectList.length; i++){
+      if (this.state.currentProject == copyMasterProjectList[i].id){
+        copyMasterProjectList.splice(i, 1);
+        this.setState({masterProjectList: copyMasterProjectList});
+        this.setState({currentUser: ''});
       }
     }
   }
@@ -69,7 +84,8 @@ class App extends React.Component {
               onNewProjectCreation={this.handleAddingNewProject} />} />
             <Route path='/details' render={() => <ProjectDetails
               currentProject={this.getCurrentProject()} 
-              onAddingNewNote={this.handleAddingNewNote}/>} />
+              onAddingNewNote={this.handleAddingNewNote}
+              onDeletingProject={this.handleDeletingProject} />} />
             <Route path='/sign-in' 
               component={LoginPage} />
           </Switch>
