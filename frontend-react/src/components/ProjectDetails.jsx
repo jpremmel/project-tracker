@@ -54,7 +54,7 @@ function ProjectDetails(props) {
               ref={(input) => { _note = input; }} />
           </div>
           <div style={btnParent}>
-            <button type='submit' style={btnStyle} className="waves-effect waves-light btn-small"><i className="material-icons left">add</i>Add Note</button>
+            <button type='submit' style={btnStyle} className="waves-effect waves-light btn-small"><i className="material-icons left">edit</i>Add Note</button>
           </div>
         </form>
         <div style={btnParent}>

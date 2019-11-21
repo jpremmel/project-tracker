@@ -30,7 +30,7 @@ function Project(props) {
           <span className="card-title">{props.title}</span>
           <p>{props.description} </p>
           <div style={projectBtnParent}>
-            <Link onClick={seeProjectDetails} to='/details' style={projectBtnStyle} className="btn-small waves-effect waves-light"><i className="material-icons left">thumb_up</i>Project Details</Link>
+            <Link onClick={seeProjectDetails} to='/details' style={projectBtnStyle} className="btn-small waves-effect waves-light"><i className="material-icons left">assignment</i>Project Details</Link>
           </div>
         </div>
       </div>
