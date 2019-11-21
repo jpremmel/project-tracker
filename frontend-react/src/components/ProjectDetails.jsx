@@ -15,7 +15,7 @@ function ProjectDetails(props) {
   }
 
   function deleteProject() {
-    props.onDeletingProject();
+    props.onDeletingProject(props.currentProject);
   }
 
   var btnParent = {

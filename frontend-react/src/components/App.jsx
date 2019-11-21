@@ -51,17 +51,16 @@ class App extends React.Component {
     }
   }
 
-  handleDeletingProject(){
+  handleDeletingProject(id){
     console.log('check');
     console.log(this.state.masterProjectList);
-    let copyMasterProjectList = this.state.masterProjectList.slice();
-    for (let i = 0; i < copyMasterProjectList.length; i++){
-      if (this.state.currentProject == copyMasterProjectList[i].id){
-        copyMasterProjectList.splice(i, 1);
-        this.setState({masterProjectList: copyMasterProjectList});
-        this.setState({currentProject: null});
-      }
-    }
+
+    let copyMasterProjectList = this.state.masterProjectList.keys.filter(function(key){
+      return key != id;
+    })
+
+    this.setState({ masterProjectList: copyMasterProjectList });
+    this.setState({ currentProject: null });
   }
 
   render() {
