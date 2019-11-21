@@ -65,7 +65,6 @@ class App extends React.Component {
   }
 
   render() {
-    console.log('log', this.state.currentProject);
     return(
       <div>
         <Navbar onLogout={this.handleLogout} currentUser={this.state.currentUser}/>

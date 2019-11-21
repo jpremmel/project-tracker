@@ -27,12 +27,14 @@ function ProjectDetails(props) {
     backgroundColor: '#2c2321',
   };
  
-  if (props.currentProject) {
+  if(props.currentProject){
+    let project = props.projectList[props.currentProject]
+  
     return (
       <div>
-        <h1>{props.currentProject.title}</h1>
-        <p>{props.currentProject.description}</p>
-        <NoteList noteList={props.currentProject.notes} />
+        <h1>{project.title}</h1>
+        <p>{project.description}</p>
+        <NoteList noteList={project.notes} />
         <form onSubmit={addNewNote}>
           <input
             id='note'
@@ -55,7 +57,7 @@ function ProjectDetails(props) {
 
 ProjectDetails.propTypes = {
   projectList: PropTypes.object,
-  currentProject: PropTypes.object,
+  currentProject: PropTypes.string,
   onAddingNewNote: PropTypes.func,
   onDeletingProject: PropTypes.func
 };

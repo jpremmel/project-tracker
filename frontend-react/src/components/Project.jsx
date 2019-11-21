@@ -7,7 +7,8 @@ function Project(props) {
 
   function seeProjectDetails()
   {
-    let projectId = props.id;
+    let projectId = props.projectId;
+    console.log('hi', projectId);
     props.onSettingCurrentProject(projectId);
   }
 
