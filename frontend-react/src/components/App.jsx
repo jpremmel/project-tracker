@@ -6,6 +6,7 @@ import ProjectList from './ProjectList';
 import NewProjectForm from './NewProjectForm';
 import LoginPage from './LoginPage';
 import ProjectDetails from './ProjectDetails';
+import { cloneDeep } from 'lodash';
 
 class App extends React.Component {
 
@@ -23,10 +24,9 @@ class App extends React.Component {
     this.handleDeletingProject = this.handleDeletingProject.bind(this);
   }
 
-  handleLogout() {    
+  handleLogout() {
     this.setState({currentUser: ''});
   }
-
 
   handleAddingNewProject(newProject){
     var newProjectId = v4();
@@ -42,23 +42,14 @@ class App extends React.Component {
 
   handleAddingNewNote(note){
     note.timeWritten = (note.timeWritten);
-    let copyMasterProjectList = this.state.masterProjectList.slice();
-    for (let i = 0; i < copyMasterProjectList.length; i++){
-      if (this.state.currentProject == copyMasterProjectList[i].id){
-        copyMasterProjectList[i].notes.push(note);
-        this.setState({masterProjectList: copyMasterProjectList});
-      }
-    }
+    const copyMasterProjectList = cloneDeep(this.state.masterProjectList); //use lodash to make a deep copy
+    copyMasterProjectList[this.state.currentProject].notes.push(note);
+    this.setState({masterProjectList: copyMasterProjectList});
   }
 
-  handleDeletingProject(id){
-    console.log('check');
-    console.log(this.state.masterProjectList);
-
-    let copyMasterProjectList = this.state.masterProjectList.keys.filter(function(key){
-      return key != id;
-    })
-
+  handleDeletingProject(){
+    let copyMasterProjectList = cloneDeep(this.state.masterProjectList); //use lodash to make a deep copy
+    delete copyMasterProjectList[this.state.currentProject];
     this.setState({ masterProjectList: copyMasterProjectList });
     this.setState({ currentProject: null });
   }
@@ -86,7 +77,6 @@ class App extends React.Component {
       </div>
     );
   }
-
 }
 
 export default App;
