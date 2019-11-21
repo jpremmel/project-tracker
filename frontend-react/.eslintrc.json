@@ -15,12 +15,13 @@
         "react"
     ],
     "rules": {
+        "no-console": "off",
         "indent": [
             "error",
             2
         ],
         "linebreak-style": [
-            "error",
+            "warn",
             "unix"
         ],
         "quotes": [

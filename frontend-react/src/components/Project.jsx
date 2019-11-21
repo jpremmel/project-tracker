@@ -7,18 +7,30 @@ function Project(props) {
 
   function seeProjectDetails()
   {
-    let projectId = props.id;
+    let projectId = props.projectId;
+    console.log('hi', projectId);
     props.onSettingCurrentProject(projectId);
   }
 
+  var cardStyle = {
+    backgroundColor: '#0f2c3e'
+  };
+  var projectBtnStyle = {
+    backgroundColor: '#e3eff3',
+    color: '#0f2c3e'
+  };
+  var projectBtnParent = {
+    textAlign: 'center'
+  };
+
   return (
     <div>
-      <div className="card blue-grey darken-1">
+      <div className="card darken-1" style={cardStyle}>
         <div className="card-content white-text">
           <span className="card-title">{props.title}</span>
           <p>{props.description} </p>
-          <div>
-            <Link onClick={seeProjectDetails} to='/details' className="btn-small waves-effect waves-light"><i className="material-icons">thumb_up</i>Project Details</Link>
+          <div style={projectBtnParent}>
+            <Link onClick={seeProjectDetails} to='/details' style={projectBtnStyle} className="btn-small waves-effect waves-light"><i className="material-icons left">thumb_up</i>Project Details</Link>
           </div>
         </div>
       </div>

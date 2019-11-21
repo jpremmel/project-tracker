@@ -9,12 +9,18 @@ function LoginPage() {
     marginTop: '20px'
   };
   var loginBtnStyle = {
-    backgroundColor: '#2c2321',
+    backgroundColor: '#0f2c3e',
   };
 
   return (
     <div>
       <form>
+        <style jsx>{`
+            .input-field input:focus {
+              border-bottom: 1px solid #0f2c3e;
+              box-shadow: 0 1px 0 0 #0f2c3e;
+            }
+        `}</style>
         <div className='input-field'>
           <input
             type='text'

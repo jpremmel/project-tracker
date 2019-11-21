@@ -17,8 +17,12 @@ function Navbar(props) {
     signInOut = <Link onClick={clickLogout} to='/sign-in'>Sign Out</Link>;
   }
 
+  var navStyle = {
+    backgroundColor: '#0f2c3e'
+  };
+
   return (
-    <nav>
+    <nav style={navStyle}>
       <div className='nav-wrapper'>
         <Link to='/' className='brand-logo'><i className="material-icons">home</i>My Projects</Link>
         <ul id='nav-mobile' className='right hide-on-med-and-down'>

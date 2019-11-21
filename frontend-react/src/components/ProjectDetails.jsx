@@ -15,40 +15,51 @@ function ProjectDetails(props) {
   }
 
   function deleteProject() {
-    props.onDeletingProject();
+    props.onDeletingProject(props.currentProject);
   }
+
 
   var btnParent = {
     textAlign: 'center',
     marginTop: '20px'
   };
-
   var btnStyle = {
-    backgroundColor: '#2c2321',
+    backgroundColor: '#0f2c3e',
   };
- 
+  var headerStyle = {
+    textAlign: 'center',
+    color: '#0f2c3e'
+  };
 
-
-
-
+  if(props.currentProject){
+    let project = props.projectList[props.currentProject]
   
-  if (props.currentProject) {
     return (
       <div>
-        <h1>{props.currentProject.title}</h1>
-        <p>{props.currentProject.description}</p>
-        <NoteList noteList={props.currentProject.notes} />
+        <h1 style={headerStyle}>{project.title}</h1>
+        <p>{project.description}</p>
+        <NoteList noteList={project.notes} />
         <form onSubmit={addNewNote}>
-          <input
-            id='note'
-            type='text'
-            placeholder='Add a new note'
-            ref={(input) => { _note = input; }} />
+          <style jsx>{`
+            .input-field input[type=text]:focus {
+              border-bottom: 1px solid #0f2c3e;
+              box-shadow: 0 1px 0 0 #0f2c3e;
+            }
+        `}</style>
+          <div className='input-field'>
+            <input
+              id='note'
+              type='text'
+              placeholder='Add a new note'
+              ref={(input) => { _note = input; }} />
+          </div>
           <div style={btnParent}>
-            <button type='submit' style={btnStyle} className="waves-effect waves-light btn"><i className="material-icons left">add</i>Add Note</button>
+            <button type='submit' style={btnStyle} className="waves-effect waves-light btn-small"><i className="material-icons left">add</i>Add Note</button>
           </div>
         </form>
-        <button style={btnStyle} className="btn-small waves-effect waves-light" onClick={deleteProject}><i className="material-icons left">delete</i>Delete This Project</button>
+        <div style={btnParent}>
+          <button style={btnStyle} className="btn-small waves-effect waves-light" onClick={deleteProject}><i className="material-icons left">delete</i>Delete This Project</button>
+        </div>
       </div>
     );
   } else {
@@ -59,7 +70,8 @@ function ProjectDetails(props) {
 }
 
 ProjectDetails.propTypes = {
-  currentProject: PropTypes.object,
+  projectList: PropTypes.object,
+  currentProject: PropTypes.string,
   onAddingNewNote: PropTypes.func,
   onDeletingProject: PropTypes.func
 };

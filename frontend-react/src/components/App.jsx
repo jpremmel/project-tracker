@@ -1,10 +1,12 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
+import { v4 } from 'uuid';
 import Navbar from './Navbar';
 import ProjectList from './ProjectList';
 import NewProjectForm from './NewProjectForm';
 import LoginPage from './LoginPage';
 import ProjectDetails from './ProjectDetails';
+import { cloneDeep } from 'lodash';
 
 class App extends React.Component {
 
@@ -12,10 +14,8 @@ class App extends React.Component {
     super(props);
     this.state = {
       currentUser: 'Ethan',
-      currentProject: '5a115f12-d900-413c-a1d8-685ed36dd758',
-      masterProjectList: [
-        {title: 'Test Project1', description: 'description 1', notes: [], id: '5a115f12-d900-413c-a1d8-685ed36dd758'}
-      ]
+      currentProject: null,
+      masterProjectList: {}
     };
     this.handleLogout = this.handleLogout.bind(this);
     this.handleAddingNewProject = this.handleAddingNewProject.bind(this);
@@ -24,56 +24,37 @@ class App extends React.Component {
     this.handleDeletingProject = this.handleDeletingProject.bind(this);
   }
 
-  handleLogout() {    
+  handleLogout() {
     this.setState({currentUser: ''});
   }
 
-
   handleAddingNewProject(newProject){
-    var copyProjectList = this.state.masterProjectList.slice();
-    copyProjectList.push(newProject);
-    this.setState({masterProjectList: copyProjectList});
+    var newProjectId = v4();
+    var newMasterProjectList = Object.assign({}, this.state.masterProjectList, {
+      [newProjectId]: newProject
+    });
+    this.setState({ masterProjectList: newMasterProjectList});
   }
 
   handleSettingCurrentProject(projectId){
     this.setState({currentProject: projectId});
   }
 
-  getCurrentProject(){
-    for (let i = 0; i < this.state.masterProjectList.length; i++){
-      if (this.state.currentProject == this.state.masterProjectList[i].id){
-        return this.state.masterProjectList[i];
-      }
-    }
-    return '';
-  }
-
   handleAddingNewNote(note){
     note.timeWritten = (note.timeWritten);
-    let copyMasterProjectList = this.state.masterProjectList.slice();
-    for (let i = 0; i < copyMasterProjectList.length; i++){
-      if (this.state.currentProject == copyMasterProjectList[i].id){
-        copyMasterProjectList[i].notes.push(note);
-        this.setState({masterProjectList: copyMasterProjectList});
-      }
-    }
+    const copyMasterProjectList = cloneDeep(this.state.masterProjectList); //use lodash to make a deep copy
+    copyMasterProjectList[this.state.currentProject].notes.push(note);
+    this.setState({masterProjectList: copyMasterProjectList});
   }
 
   handleDeletingProject(){
-    console.log('check');
-    console.log(this.state.masterProjectList);
-    let copyMasterProjectList = this.state.masterProjectList.slice();
-    for (let i = 0; i < copyMasterProjectList.length; i++){
-      if (this.state.currentProject == copyMasterProjectList[i].id){
-        copyMasterProjectList.splice(i, 1);
-        this.setState({masterProjectList: copyMasterProjectList});
-        this.setState({currentProject: ''});
-      }
-    }
+    let copyMasterProjectList = cloneDeep(this.state.masterProjectList); //use lodash to make a deep copy
+    delete copyMasterProjectList[this.state.currentProject];
+    this.setState({ masterProjectList: copyMasterProjectList });
+    this.setState({ currentProject: null });
   }
 
   render() {
-    console.log('log', this.state.currentProject);
     return(
       <div>
         <Navbar onLogout={this.handleLogout} currentUser={this.state.currentUser}/>
@@ -85,7 +66,8 @@ class App extends React.Component {
             <Route path='/new-project' render={() => <NewProjectForm  
               onNewProjectCreation={this.handleAddingNewProject} />} />
             <Route path='/details' render={() => <ProjectDetails
-              currentProject={this.getCurrentProject()} 
+              currentProject={this.state.currentProject}
+              projectList={this.state.masterProjectList} 
               onAddingNewNote={this.handleAddingNewNote}
               onDeletingProject={this.handleDeletingProject} />} />
             <Route path='/sign-in' 
@@ -95,7 +77,6 @@ class App extends React.Component {
       </div>
     );
   }
-
 }
 
 export default App;

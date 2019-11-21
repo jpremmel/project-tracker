@@ -1,10 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Note from './Note';
-import Moment from 'moment';
 
 function NoteList(props) {
-  console.log(props.noteList);
   return(
     <div>
       {props.noteList.map((thisNote, index) =>
