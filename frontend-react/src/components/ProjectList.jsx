@@ -5,21 +5,21 @@ import PropTypes from 'prop-types';
 function ProjectList(props) {
   return (
     <div>
-      {props.projectList.map((project) =>
-        <Project 
-          title={project.title}
+      {Object.keys(props.projectListtList).map(function (id) {      
+        var project = props.projectList[id];        
+        return <Project title={project.title}
           description={project.description}
           key={project.id}
           id={project.id}
           onSettingCurrentProject={props.onSettingCurrentProject}
         />
-      )}
+      })}
     </div>
   );
 }
 
 ProjectList.propTypes = {
-  projectList: PropTypes.array,
+  projectList: PropTypes.object,
   onSettingCurrentProject: PropTypes.func
 };
 

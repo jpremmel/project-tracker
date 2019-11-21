@@ -12,10 +12,8 @@ class App extends React.Component {
     super(props);
     this.state = {
       currentUser: 'Ethan',
-      currentProject: '5a115f12-d900-413c-a1d8-685ed36dd758',
-      masterProjectList: [
-        {title: 'Test Project1', description: 'description 1', notes: [], id: '5a115f12-d900-413c-a1d8-685ed36dd758'}
-      ]
+      currentProject: null,
+      masterProjectList: {}
     };
     this.handleLogout = this.handleLogout.bind(this);
     this.handleAddingNewProject = this.handleAddingNewProject.bind(this);
@@ -39,15 +37,6 @@ class App extends React.Component {
     this.setState({currentProject: projectId});
   }
 
-  getCurrentProject(){
-    for (let i = 0; i < this.state.masterProjectList.length; i++){
-      if (this.state.currentProject == this.state.masterProjectList[i].id){
-        return this.state.masterProjectList[i];
-      }
-    }
-    return '';
-  }
-
   handleAddingNewNote(note){
     note.timeWritten = (note.timeWritten);
     let copyMasterProjectList = this.state.masterProjectList.slice();
@@ -67,7 +56,7 @@ class App extends React.Component {
       if (this.state.currentProject == copyMasterProjectList[i].id){
         copyMasterProjectList.splice(i, 1);
         this.setState({masterProjectList: copyMasterProjectList});
-        this.setState({currentProject: ''});
+        this.setState({currentProject: null});
       }
     }
   }
@@ -85,7 +74,8 @@ class App extends React.Component {
             <Route path='/new-project' render={() => <NewProjectForm  
               onNewProjectCreation={this.handleAddingNewProject} />} />
             <Route path='/details' render={() => <ProjectDetails
-              currentProject={this.getCurrentProject()} 
+              currentProject={this.state.currentProject}
+              projectList={this.state.masterProjectList} 
               onAddingNewNote={this.handleAddingNewNote}
               onDeletingProject={this.handleDeletingProject} />} />
             <Route path='/sign-in' 

@@ -27,11 +27,6 @@ function ProjectDetails(props) {
     backgroundColor: '#2c2321',
   };
  
-
-
-
-
-  
   if (props.currentProject) {
     return (
       <div>
@@ -59,6 +54,7 @@ function ProjectDetails(props) {
 }
 
 ProjectDetails.propTypes = {
+  projectList: PropTypes.object,
   currentProject: PropTypes.object,
   onAddingNewNote: PropTypes.func,
   onDeletingProject: PropTypes.func
