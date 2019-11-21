@@ -19,6 +19,6 @@ function NoteList(props) {
 
 NoteList.propTypes = {
   noteList: PropTypes.array
-}
+};
 
 export default NoteList;

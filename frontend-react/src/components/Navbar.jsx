@@ -23,7 +23,7 @@ function Navbar(props) {
         <Link to='/' className='brand-logo'><i className="material-icons">home</i>My Projects</Link>
         <ul id='nav-mobile' className='right hide-on-med-and-down'>
           <li><Link to='/new-project'>New Project</Link></li>
-          <li > {signInOut}</li>
+          <li>{signInOut}</li>
         </ul>
       </div>
     </nav>  

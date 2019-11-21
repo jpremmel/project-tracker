@@ -11,6 +11,6 @@ function Note(props) {
 Note.propTypes = {
   content: PropTypes.string,
   timeWritten: PropTypes.instanceOf(Moment)
-}
+};
 
 export default Note;

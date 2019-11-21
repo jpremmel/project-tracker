@@ -14,7 +14,7 @@ class App extends React.Component {
       currentUser: 'Ethan',
       currentProject: '5a115f12-d900-413c-a1d8-685ed36dd758',
       masterProjectList: [
-        {title: "Test Project1", description: "description 1", notes: [], id: "5a115f12-d900-413c-a1d8-685ed36dd758"}
+        {title: 'Test Project1', description: 'description 1', notes: [], id: '5a115f12-d900-413c-a1d8-685ed36dd758'}
       ]
     };
     this.handleLogout = this.handleLogout.bind(this);
@@ -45,6 +45,7 @@ class App extends React.Component {
         return this.state.masterProjectList[i];
       }
     }
+    return '';
   }
 
   handleAddingNewNote(note){
@@ -66,12 +67,13 @@ class App extends React.Component {
       if (this.state.currentProject == copyMasterProjectList[i].id){
         copyMasterProjectList.splice(i, 1);
         this.setState({masterProjectList: copyMasterProjectList});
-        this.setState({currentUser: ''});
+        this.setState({currentProject: ''});
       }
     }
   }
 
   render() {
+    console.log('log', this.state.currentProject);
     return(
       <div>
         <Navbar onLogout={this.handleLogout} currentUser={this.state.currentUser}/>

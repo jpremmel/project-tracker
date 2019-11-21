@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import NoteList from './NoteList';
 import { v4 } from 'uuid';
 import Moment from 'moment';
+import {Redirect} from 'react-router-dom';
 
 function ProjectDetails(props) {
   let _note = null;
@@ -25,25 +26,36 @@ function ProjectDetails(props) {
   var btnStyle = {
     backgroundColor: '#2c2321',
   };
+ 
 
-  return (
-    <div>
-      <h1>{props.currentProject.title}</h1>
-      <p>{props.currentProject.description}</p>
-      <NoteList noteList={props.currentProject.notes} />
-      <form onSubmit={addNewNote}>
-        <input
-          id='note'
-          type='text'
-          placeholder='Add a new note'
-          ref={(input) => { _note = input; }} />
-        <div style={btnParent}>
-          <button type='submit' style={btnStyle} className="waves-effect waves-light btn"><i className="material-icons left">add</i>Add Note</button>
-        </div>
-      </form>
-      <button style={btnStyle} className="btn-small waves-effect waves-light" onClick={deleteProject}><i className="material-icons left">delete</i>Delete This Project</button>
-    </div>
-  );
+
+
+
+  
+  if (props.currentProject) {
+    return (
+      <div>
+        <h1>{props.currentProject.title}</h1>
+        <p>{props.currentProject.description}</p>
+        <NoteList noteList={props.currentProject.notes} />
+        <form onSubmit={addNewNote}>
+          <input
+            id='note'
+            type='text'
+            placeholder='Add a new note'
+            ref={(input) => { _note = input; }} />
+          <div style={btnParent}>
+            <button type='submit' style={btnStyle} className="waves-effect waves-light btn"><i className="material-icons left">add</i>Add Note</button>
+          </div>
+        </form>
+        <button style={btnStyle} className="btn-small waves-effect waves-light" onClick={deleteProject}><i className="material-icons left">delete</i>Delete This Project</button>
+      </div>
+    );
+  } else {
+    return (
+      <Redirect to='/' />
+    );
+  }
 }
 
 ProjectDetails.propTypes = {
