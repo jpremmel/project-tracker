@@ -1,11 +1,11 @@
 import React from 'react';
 import 'materialize-css/dist/css/materialize.min.css';
 import PropTypes from 'prop-types';
-import {Redirect} from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 class NewProjectForm extends React.Component {
 
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       redirect: false
@@ -17,10 +17,10 @@ class NewProjectForm extends React.Component {
 
   addNewProject(event) {
     event.preventDefault();
-    this.props.onNewProjectCreation({title: this._title.value, description: this._description.value, notes: []});
+    this.props.onNewProjectCreation({ title: this._title.value, description: this._description.value, notes: [] });
     this._title.value = '';
     this._description.value = '';
-    this.setState({redirect: true});
+    this.setState({ redirect: true });
   }
 
   render() {
@@ -31,6 +31,7 @@ class NewProjectForm extends React.Component {
     var btnStyle = {
       backgroundColor: '#0f2c3e',
     };
+
     return (
       <div>
         {this.state.redirect ? <Redirect to='/' /> : ''}
@@ -46,14 +47,14 @@ class NewProjectForm extends React.Component {
               id='title'
               type='text'
               placeholder='Project Title'
-              ref={(input) => {this._title = input;}} />
+              ref={(input) => { this._title = input; }} />
           </div>
           <div className='input-field'>
             <input
               id='description'
               type='text'
               placeholder='Project Description (ie. job application)'
-              ref={(input) => {this._description = input;}} />
+              ref={(input) => { this._description = input; }} />
           </div>
           <div style={btnParent}>
             <button type='submit' style={btnStyle} className="waves-effect waves-light btn-large"><i className="material-icons right">add</i>Add Project</button>

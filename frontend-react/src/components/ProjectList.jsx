@@ -3,8 +3,7 @@ import Project from './Project';
 import PropTypes from 'prop-types';
 
 function ProjectList(props) {
-  if (Object.entries(props.projectList).length == 0)
-  {
+  if (Object.entries(props.projectList).length == 0) {
     var greyStyle = {
       color: '#6e828a',
       textAlign: 'center'
@@ -34,6 +33,6 @@ function ProjectList(props) {
 ProjectList.propTypes = {
   projectList: PropTypes.object,
   onSettingCurrentProject: PropTypes.func
-};
+ };
 
 export default ProjectList;

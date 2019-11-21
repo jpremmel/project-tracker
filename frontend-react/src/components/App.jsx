@@ -8,12 +8,13 @@ import LoginPage from './LoginPage';
 import ProjectDetails from './ProjectDetails';
 import { cloneDeep } from 'lodash';
 
+
 class App extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      currentUser: 'Ethan',
+      currentUser: '',
       currentProject: null,
       masterProjectList: {}
     };
@@ -22,8 +23,50 @@ class App extends React.Component {
     this.handleSettingCurrentProject = this.handleSettingCurrentProject.bind(this);
     this.handleAddingNewNote = this.handleAddingNewNote.bind(this);
     this.handleDeletingProject = this.handleDeletingProject.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
   }
 
+  makeApiGetCall() {
+    console.log('calling api');
+    //make call
+    // make it into the form of state
+    //use set state
+    return new Promise(function(resolve, reject) {
+      let request = new XMLHttpRequest();
+      const url = `http://localhost:5000/api?id=1`;
+      request.onload = function() {
+        if (this.status === 200) {
+          resolve(request.response);
+        } else {
+          reject(Error(request.statusText));
+        }
+      }
+      request.open("GET", url, true);
+      request.send();
+    });
+  }
+
+  makeApiGetCallWrapper() {
+    let dataPromise = this.makeApiGetCall();
+
+    dataPromise.then((response) => {
+      console.log(JSON.parse(response));
+      let JSONresponse = JSON.parse(response);
+    
+      for (let i = 0; i < JSONresponse.length; i++) {
+        console.log(JSONresponse[i])
+        this.handleAddingNewProject(JSONresponse[i]);
+      }
+      console.log(this.state.masterProjectList);
+
+    });
+  }
+
+  handleLogin(userId) {
+    this.setState({ currentUser: userId });
+    this.makeApiGetCallWrapper();
+  }
+  
   handleLogout() {
     this.setState({currentUser: ''});
   }
@@ -55,23 +98,23 @@ class App extends React.Component {
   }
 
   render() {
-    return(
+    return (
       <div>
-        <Navbar onLogout={this.handleLogout} currentUser={this.state.currentUser}/>
+        <Navbar onLogout={this.handleLogout} currentUser={this.state.currentUser} />
         <div className='container'>
           <Switch>
-            <Route exact path='/' render={() => <ProjectList 
-              projectList={this.state.masterProjectList} 
+            <Route exact path='/' render={() => <ProjectList
+              projectList={this.state.masterProjectList}
               onSettingCurrentProject={this.handleSettingCurrentProject} />} />
-            <Route path='/new-project' render={() => <NewProjectForm  
+            <Route path='/new-project' render={() => <NewProjectForm
               onNewProjectCreation={this.handleAddingNewProject} />} />
             <Route path='/details' render={() => <ProjectDetails
               currentProject={this.state.currentProject}
-              projectList={this.state.masterProjectList} 
+              projectList={this.state.masterProjectList}
               onAddingNewNote={this.handleAddingNewNote}
               onDeletingProject={this.handleDeletingProject} />} />
-            <Route path='/sign-in' 
-              component={LoginPage} />
+            <Route path='/sign-in' render={() => <LoginPage 
+              onLogin={this.handleLogin} />} />
           </Switch>
         </div>
       </div>

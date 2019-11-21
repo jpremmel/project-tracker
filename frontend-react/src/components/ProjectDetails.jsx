@@ -31,8 +31,8 @@ function ProjectDetails(props) {
     color: '#0f2c3e'
   };
 
-  if(props.currentProject){
-    let project = props.projectList[props.currentProject]
+ if(props.currentProject){
+    let project = props.projectList[props.currentProject];
   
     return (
       <div>
