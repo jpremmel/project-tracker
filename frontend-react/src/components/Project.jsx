@@ -4,6 +4,7 @@ import 'materialize-css/dist/css/materialize.min.css';
 import { Link } from 'react-router-dom';
 
 function Project(props) {
+  console.log('notes in project.jx', props.notes);
 
   function seeProjectDetails()
   {
@@ -45,7 +46,8 @@ Project.propTypes = {
   completed: PropTypes.bool,
   deadlines: PropTypes.array,
   id: PropTypes.string,
-  onSettingCurrentProject: PropTypes.func
+  onSettingCurrentProject: PropTypes.func,
+  projectId: PropTypes.string
 };
 
 export default Project;

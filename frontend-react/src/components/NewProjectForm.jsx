@@ -12,10 +12,10 @@ class NewProjectForm extends React.Component {
     };
     this._title = null;
     this._description = null;
-    this.addNewProject = this.addNewProject.bind(this);
+    this.handleAddingNewProject = this.handleAddingNewProject.bind(this);
   }
 
-  addNewProject(event) {
+  handleAddingNewProject(event) {
     event.preventDefault();
     this.props.onNewProjectCreation({ title: this._title.value, description: this._description.value, notes: [] });
     this._title.value = '';
@@ -35,7 +35,7 @@ class NewProjectForm extends React.Component {
     return (
       <div>
         {this.state.redirect ? <Redirect to='/' /> : ''}
-        <form onSubmit={this.addNewProject}>
+        <form onSubmit={this.handleAddingNewProject}>
           <style jsx>{`
             .input-field input[type=text]:focus {
               border-bottom: 1px solid #0f2c3e;

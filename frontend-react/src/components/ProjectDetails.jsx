@@ -10,7 +10,7 @@ function ProjectDetails(props) {
 
   function addNewNote(event) {
     event.preventDefault();
-    props.onAddingNewNote({note: _note.value, id: v4(), timeWritten: new Moment()});
+    props.onAddingNewNote({note: _note.value, id: v4(), timeWritten: new Moment().inspect()});
     _note.value = '';
   }
 
@@ -31,7 +31,7 @@ function ProjectDetails(props) {
     color: '#0f2c3e'
   };
 
- if(props.currentProject){
+  if(props.currentProject){
     let project = props.projectList[props.currentProject];
   
     return (

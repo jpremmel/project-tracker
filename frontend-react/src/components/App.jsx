@@ -33,15 +33,15 @@ class App extends React.Component {
     //use set state
     return new Promise(function(resolve, reject) {
       let request = new XMLHttpRequest();
-      const url = `http://localhost:5000/api?id=1`;
+      const url = 'http://localhost:5000/api?id=1';
       request.onload = function() {
         if (this.status === 200) {
           resolve(request.response);
         } else {
           reject(Error(request.statusText));
         }
-      }
-      request.open("GET", url, true);
+      };
+      request.open('GET', url, true);
       request.send();
     });
   }
@@ -54,7 +54,7 @@ class App extends React.Component {
       let JSONresponse = JSON.parse(response);
     
       for (let i = 0; i < JSONresponse.length; i++) {
-        console.log(JSONresponse[i])
+        console.log(JSONresponse[i]);
         this.handleAddingNewProject(JSONresponse[i]);
       }
       console.log(this.state.masterProjectList);

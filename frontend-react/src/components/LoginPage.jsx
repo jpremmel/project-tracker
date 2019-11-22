@@ -1,6 +1,5 @@
 import React from 'react';
 import 'materialize-css/dist/css/materialize.min.css';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 function LoginPage(props) {
@@ -54,6 +53,6 @@ function LoginPage(props) {
 
 LoginPage.propTypes = {
   onLogin: PropTypes.func
-}
+};
 
 export default LoginPage;

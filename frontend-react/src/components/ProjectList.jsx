@@ -16,13 +16,15 @@ function ProjectList(props) {
   } else {
     return (
       <div>
-        {Object.keys(props.projectList).map(function (projectId) {
+        {Object.keys(props.projectList).map((projectId) => {
           var project = props.projectList[projectId];
+          { console.log('PROJECTID =', project) }
           return <Project title={project.title}
             description={project.description}
             key={projectId}
             projectId={projectId}
             onSettingCurrentProject={props.onSettingCurrentProject}
+            notes={project.notes}            
           />;
         })}
       </div>
@@ -33,6 +35,6 @@ function ProjectList(props) {
 ProjectList.propTypes = {
   projectList: PropTypes.object,
   onSettingCurrentProject: PropTypes.func
- };
+};
 
 export default ProjectList;
