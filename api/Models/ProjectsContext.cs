@@ -29,12 +29,12 @@ namespace api.Models
           );
       builder.Entity<Note>()
           .HasData(
-              new Note { NoteId = 1, ProjectId = 1, Content = "Here is the first note!", DateTimeString = "moment(\"2016 - 11 - 09T22:23:27.861\")" },
-              new Note { NoteId = 2, ProjectId = 1, Content = "Here is the second note!", DateTimeString = "moment(\"2016 - 11 - 09T22:23:27.861\")" },
-              new Note { NoteId = 3, ProjectId = 1, Content = "Here is the third note!", DateTimeString = "moment(\"2016 - 11 - 09T22:23:27.861\")" },
-              new Note { NoteId = 4, ProjectId = 2, Content = "Here is the fourth note!", DateTimeString = "moment(\"2016 - 11 - 09T22:23:27.861\")" },
-              new Note { NoteId = 5, ProjectId = 5, Content = "Here is the fifth note!", DateTimeString = "moment(\"2016 - 11 - 09T22:23:27.861\")" },
-              new Note { NoteId = 6, ProjectId = 5, Content = "Here is the last note!", DateTimeString = "moment(\"2016 - 11 - 09T22:23:27.861\")" }
+              new Note { NoteId = 1, ProjectId = 1, Content = "Here is the first note!", DateTimeString = "2019-11-22T00:26:28.380Z" },
+              new Note { NoteId = 2, ProjectId = 1, Content = "Here is the second note!", DateTimeString = "2019-11-22T00:26:28.380Z" },
+              new Note { NoteId = 3, ProjectId = 1, Content = "Here is the third note!", DateTimeString = "2019-11-22T00:26:28.380Z" },
+              new Note { NoteId = 4, ProjectId = 2, Content = "Here is the fourth note!", DateTimeString = "2019-11-22T00:26:28.380Z" },
+              new Note { NoteId = 5, ProjectId = 5, Content = "Here is the fifth note!", DateTimeString = "2019-11-22T00:26:28.380Z" },
+              new Note { NoteId = 6, ProjectId = 5, Content = "Here is the last note!", DateTimeString = "2019-11-22T00:26:28.380Z" }
           );
     }
   }

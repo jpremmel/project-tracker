@@ -1,11 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Moment from 'moment';
+import moment from 'moment';
 
 function Note(props) {
-  console.log('kuhsldguhoiuhsolhloh', props.timeWritten);
+  
+  let written = moment(props.timeWritten).calendar();
+
   return(
-    <p>{props.content} <em>(Note written: {props.timeWritten})</em></p>
+    <p>{props.content} <em>(Note written: {written})</em></p>
   );
 }
 
