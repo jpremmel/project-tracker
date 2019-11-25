@@ -26,5 +26,13 @@ namespace api.Controllers
             var results = _db.Projects.Where(p => p.UserId == id).Include(n => n.Notes).ToList();
             return results;
         }
+
+        //POST
+        [HttpPost]
+        public void Post([FromBody] Project project)
+        {
+            _db.Projects.Add(project);
+            _db.SaveChanges();
+        }
     }
 }
