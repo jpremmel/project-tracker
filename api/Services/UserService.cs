@@ -9,6 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authorization;
 using api.Helpers;
 using api.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace api.Services
 {
@@ -35,31 +36,34 @@ namespace api.Services
 
     public User Authenticate(string username, string password)
     {
-      var user = _users.SingleOrDefault(x => x.Username == username && x.PasswordHash == password);
-
-      //return null if user not found
-      if (user == null)
-        return null;
-
-      //if authentication is successful, generate jwt token
-      var tokenHandler = new JwtSecurityTokenHandler();
-      var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
-      var tokenDescriptor = new SecurityTokenDescriptor
+      var passwordHasher = new PasswordHasher<api.Models.User>();
+      var user = _users.SingleOrDefault(x => x.Username == username);
+      if (user != null && passwordHasher.VerifyHashedPassword(user, user.PasswordHash, password) != 0)
       {
-        Subject = new ClaimsIdentity(new Claim[]
+        //if authentication is successful, generate jwt token
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
+        var tokenDescriptor = new SecurityTokenDescriptor
         {
-          new Claim(ClaimTypes.Name, user.UserId.ToString())
-        }),
-        Expires = DateTime.UtcNow.AddDays(7),
-        SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-      };
-      var token = tokenHandler.CreateToken(tokenDescriptor);
-      user.Token = tokenHandler.WriteToken(token);
+          Subject = new ClaimsIdentity(new Claim[]
+          {
+            new Claim(ClaimTypes.Name, user.UserId.ToString())
+          }),
+          Expires = DateTime.UtcNow.AddDays(7),
+          SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+        };
+        var token = tokenHandler.CreateToken(tokenDescriptor);
+        user.Token = tokenHandler.WriteToken(token);
 
-      //remove password before returning
-      user.PasswordHash = null;
+        //remove password before returning
+        user.PasswordHash = null;
 
-      return user;
+        return user;
+        
+      } else {
+        return null;
+      }
+      
     }
 
     public void Create(User newUser)

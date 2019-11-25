@@ -8,6 +8,7 @@ import LoginPage from './LoginPage';
 import ProjectDetails from './ProjectDetails';
 import CreateAcctPage from './CreateAcctPage';
 import { cloneDeep } from 'lodash';
+import ApiHelper from '../ApiHelper.js';
 
 class App extends React.Component {
 
@@ -16,8 +17,10 @@ class App extends React.Component {
     this.state = {
       currentUser: '',
       currentProject: null,
-      masterProjectList: {}
+      masterProjectList: {},
+      token: null
     };
+    this.apiHelper = new ApiHelper();
     this.handleLogout = this.handleLogout.bind(this);
     this.handleAddingNewProject = this.handleAddingNewProject.bind(this);
     this.handleSettingCurrentProject = this.handleSettingCurrentProject.bind(this);
@@ -27,120 +30,72 @@ class App extends React.Component {
     this.handleCreateAcct = this.handleCreateAcct.bind(this);
   }
 
-  makeApiGetCall() {
-    console.log('calling api');
-    //make call
-    // make it into the form of state
-    //use set state
-    return new Promise(function(resolve, reject) {
-      let request = new XMLHttpRequest();
-      const url = 'http://localhost:5000/api?id=1'; //PULL OUT ID AS VAR FROM STATE
-      
-      
-      request.onload = function() {
-        if (this.status === 200) {
-          resolve(request.response);
-        } else {
-          reject(Error(request.statusText));
-        }
-      };
-      request.open('GET', url, true);
-      request.send();
-    });
-  }
-
-  makeApiGetCallWrapper() {
-    let dataPromise = this.makeApiGetCall();
+  getProjectList() { //to be called in handleLogin once user is successfully authenticated
+    let dataPromise = this.apiGetUserProjects(this.state.currentUser, this.state.token);
 
     dataPromise.then((response) => {
       console.log(JSON.parse(response));
       let JSONresponse = JSON.parse(response);
-    
+
       for (let i = 0; i < JSONresponse.length; i++) {
         console.log(JSONresponse[i]);
         this.handleAddingNewProjectFromApi(JSONresponse[i]);
       }
       console.log(this.state.masterProjectList);
-
     });
   }
 
-
-  apiPostNewProject(newProject) {
-    console.log('apiPOst new project running');
-    let url = 'http://localhost:5000/api';
-    let body = JSON.stringify(newProject);
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', url, true);
-    xhr.setRequestHeader('Content-Type', 'application/JSON');
-    xhr.onreadystatechange = function() { // Call a function when the state changes.
-      if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-        // Request finished. Do processing here.
-      }
-    };
-
-    xhr.send(body);
-
-
-  }
-
   handleCreateAcct(newUser) {
-    console.log('apiPOst new project running');
-    let url = 'http://localhost:5000/Users/create';
-    console.log(newUser);
-    let body = JSON.stringify(newUser);
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', url, true);
-    xhr.setRequestHeader('Content-Type', 'application/JSON');
-    xhr.onreadystatechange = function() { // Call a function when the state changes.
-      if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-        console.log('sucessfully created new user');
-      }
-    };
-    xhr.send(body);
+    this.apiHelper.apiPostNewUser(newUser);
   }
 
-  handleLogin(userId) {
-    this.setState({ currentUser: userId });
-    this.makeApiGetCallWrapper();
+  handleLogin(user) {
+    let loginPromise = this.apiHelper.apiAttemptLogin(user);
+    loginPromise.then(function(response) {
+      console.log('WE ARE HERE', response);
+    });
+
+    //once user is authenticated, call getProjectList()
+    
   }
-  
+
+
   handleLogout() {
-    this.setState({currentUser: ''});
+    this.setState({ currentUser: '' });
   }
 
-  handleAddingNewProject(newProject){
+  handleAddingNewProject(newProject) {
     var newProjectId = v4();
     var newMasterProjectList = Object.assign({}, this.state.masterProjectList, {
       [newProjectId]: newProject
     });
-    this.setState({ masterProjectList: newMasterProjectList});
+    this.setState({ masterProjectList: newMasterProjectList });
     this.apiPostNewProject(newProject); // NEW LINE
     console.log('--------', newProject);
   }
 
-  handleSettingCurrentProject(projectId){
-    this.setState({currentProject: projectId});
+  handleSettingCurrentProject(projectId) {
+    this.setState({ currentProject: projectId });
   }
 
-  handleAddingNewProjectFromApi(newProject){
+  handleAddingNewProjectFromApi(newProject) {
     var newProjectId = v4();
     var newMasterProjectList = Object.assign({}, this.state.masterProjectList, {
       [newProjectId]: newProject
     });
-    this.setState({ masterProjectList: newMasterProjectList});
+    this.setState({ masterProjectList: newMasterProjectList });
     // this.apiPostNewProject(newProject); // NEW LINE
     console.log('--------', newProject);
   }
 
-  handleAddingNewNote(note){
+  handleAddingNewNote(note) {
     note.timeWritten = (note.timeWritten);
     const copyMasterProjectList = cloneDeep(this.state.masterProjectList); //use lodash to make a deep copy
     copyMasterProjectList[this.state.currentProject].notes.push(note);
-    this.setState({masterProjectList: copyMasterProjectList});
+    this.setState({ masterProjectList: copyMasterProjectList });
   }
 
-  handleDeletingProject(){
+  handleDeletingProject() {
     let copyMasterProjectList = cloneDeep(this.state.masterProjectList); //use lodash to make a deep copy
     delete copyMasterProjectList[this.state.currentProject];
     this.setState({ masterProjectList: copyMasterProjectList });
@@ -164,10 +119,10 @@ class App extends React.Component {
               projectList={this.state.masterProjectList}
               onAddingNewNote={this.handleAddingNewNote}
               onDeletingProject={this.handleDeletingProject} />} />
-            <Route path='/sign-in' render={() => <LoginPage 
+            <Route path='/sign-in' render={() => <LoginPage
               onLogin={this.handleLogin} />} />
             <Route path='/create-account' render={() => <CreateAcctPage
-              onCreateAcct={this.handleCreateAcct}/>} />
+              onCreateAcct={this.handleCreateAcct} />} />
           </Switch>
         </div>
       </div>

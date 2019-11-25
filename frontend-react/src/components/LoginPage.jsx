@@ -4,13 +4,15 @@ import PropTypes from 'prop-types';
 
 function LoginPage(props) {
 
-  let _userId = null;
+  let _username = null;
+  let _password = null;
 
   function handleLogin(event) {
     console.log('handle login running');
     event.preventDefault();
-    props.onLogin(_userId.value);
-    _userId = '';
+    props.onLogin({ Username: _username.value, Password: _password.value });
+    _username = '';
+    _password = '';
   }
 
   var loginBtnParent = {
@@ -34,13 +36,14 @@ function LoginPage(props) {
           <input
             type='text'
             placeholder='User ID'
-            ref={(input) => { _userId = input; }}
+            ref={(input) => { _username = input; }}
           />
         </div>
         <div className='input-field'>
           <input
             type='password'
             placeholder='Password'
+            ref={(input) => { _password = input; }}
           />
         </div>
         <div style={loginBtnParent}>

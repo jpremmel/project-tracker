@@ -35,11 +35,11 @@ namespace api.Controllers
 
     [AllowAnonymous]
     [HttpPost("authenticate")]
-    public IActionResult Authenticate([FromBody] User userParam)
+    public IActionResult Authenticate([FromBody] User userLoggingIn)
     {
-      Console.WriteLine(userParam.Username);
-      Console.WriteLine(userParam.PasswordHash);
-      var user = _userService.Authenticate(userParam.Username, userParam.PasswordHash);
+      Console.WriteLine(userLoggingIn.Username);
+      Console.WriteLine(userLoggingIn.PasswordHash);
+      var user = _userService.Authenticate(userLoggingIn.Username, userLoggingIn.Password);
 
       if (user == null)
         return BadRequest(new { message = "Username or password is incorrect" });
