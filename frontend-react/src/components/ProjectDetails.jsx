@@ -10,7 +10,7 @@ function ProjectDetails(props) {
 
   function addNewNote(event) {
     event.preventDefault();
-    props.onAddingNewNote({note: _note.value, id: v4(), timeWritten: new Moment().inspect()});
+    props.onAddingNewNote({content: _note.value, id: v4(), timeWritten: new Moment().inspect()});
     _note.value = '';
   }
 

@@ -8,7 +8,7 @@ function NoteList(props) {
     <div>
       {props.noteList.map((thisNote, index) =>
         <Note 
-          content={thisNote.note}
+          content={thisNote.content}
           key={index} 
           timeWritten={thisNote.dateTimeString}/>
       )}

@@ -18,7 +18,8 @@ function Project(props) {
   };
   var projectBtnStyle = {
     backgroundColor: '#e3eff3',
-    color: '#0f2c3e'
+    color: '#0f2c3e',
+    marginTop: '15px'
   };
   var projectBtnParent = {
     textAlign: 'center'
