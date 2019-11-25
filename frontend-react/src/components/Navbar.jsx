@@ -35,6 +35,8 @@ function Navbar(props) {
         <ul id='nav-mobile' className='right hide-on-small-and-down'>
           <li><Link to='/new-project'>New Project</Link></li>
           <li style={marginRightStyle}>{signInOut}</li>
+          <li><Link to='/create-account'>Create Account</Link></li>
+
         </ul>
       </div>
     </nav>  

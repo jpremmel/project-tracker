@@ -6,8 +6,8 @@ import ProjectList from './ProjectList';
 import NewProjectForm from './NewProjectForm';
 import LoginPage from './LoginPage';
 import ProjectDetails from './ProjectDetails';
+import CreateAcctPage from './CreateAcctPage';
 import { cloneDeep } from 'lodash';
-
 
 class App extends React.Component {
 
@@ -24,6 +24,7 @@ class App extends React.Component {
     this.handleAddingNewNote = this.handleAddingNewNote.bind(this);
     this.handleDeletingProject = this.handleDeletingProject.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
+    this.handleCreateAcct = this.handleCreateAcct.bind(this);
   }
 
   makeApiGetCall() {
@@ -33,7 +34,7 @@ class App extends React.Component {
     //use set state
     return new Promise(function(resolve, reject) {
       let request = new XMLHttpRequest();
-      const url = 'http://localhost:5000/api?id=1';
+      const url = 'http://localhost:5000/api?id=1'; //PULL OUT ID AS VAR FROM STATE
       
       
       request.onload = function() {
@@ -69,20 +70,34 @@ class App extends React.Component {
     console.log('apiPOst new project running');
     let url = 'http://localhost:5000/api';
     let body = JSON.stringify(newProject);
-   
-
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", url, true);
-    xhr.setRequestHeader("Content-Type", "application/JSON");
+    xhr.open('POST', url, true);
+    xhr.setRequestHeader('Content-Type', 'application/JSON');
     xhr.onreadystatechange = function() { // Call a function when the state changes.
       if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
         // Request finished. Do processing here.
       }
-    }
+    };
 
     xhr.send(body);
 
 
+  }
+
+  handleCreateAcct(newUser) {
+    console.log('apiPOst new project running');
+    let url = 'http://localhost:5000/Users/create';
+    console.log(newUser);
+    let body = JSON.stringify(newUser);
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', url, true);
+    xhr.setRequestHeader('Content-Type', 'application/JSON');
+    xhr.onreadystatechange = function() { // Call a function when the state changes.
+      if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+        console.log('sucessfully created new user');
+      }
+    };
+    xhr.send(body);
   }
 
   handleLogin(userId) {
@@ -151,6 +166,8 @@ class App extends React.Component {
               onDeletingProject={this.handleDeletingProject} />} />
             <Route path='/sign-in' render={() => <LoginPage 
               onLogin={this.handleLogin} />} />
+            <Route path='/create-account' render={() => <CreateAcctPage
+              onCreateAcct={this.handleCreateAcct}/>} />
           </Switch>
         </div>
       </div>
