@@ -1,3 +1,6 @@
-.DS_STORE
 node_modules
 build
+obj/
+bin/
+.vscode/
+.DS_Store/
