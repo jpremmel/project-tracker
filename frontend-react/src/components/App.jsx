@@ -34,6 +34,8 @@ class App extends React.Component {
     return new Promise(function(resolve, reject) {
       let request = new XMLHttpRequest();
       const url = 'http://localhost:5000/api?id=1';
+      
+      
       request.onload = function() {
         if (this.status === 200) {
           resolve(request.response);
@@ -55,11 +57,32 @@ class App extends React.Component {
     
       for (let i = 0; i < JSONresponse.length; i++) {
         console.log(JSONresponse[i]);
-        this.handleAddingNewProject(JSONresponse[i]);
+        this.handleAddingNewProjectFromApi(JSONresponse[i]);
       }
       console.log(this.state.masterProjectList);
 
     });
+  }
+
+
+  apiPostNewProject(newProject) {
+    console.log('apiPOst new project running');
+    let url = 'http://localhost:5000/api';
+    let body = JSON.stringify(newProject);
+   
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader("Content-Type", "application/JSON");
+    xhr.onreadystatechange = function() { // Call a function when the state changes.
+      if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+        // Request finished. Do processing here.
+      }
+    }
+
+    xhr.send(body);
+
+
   }
 
   handleLogin(userId) {
@@ -77,10 +100,22 @@ class App extends React.Component {
       [newProjectId]: newProject
     });
     this.setState({ masterProjectList: newMasterProjectList});
+    this.apiPostNewProject(newProject); // NEW LINE
+    console.log('--------', newProject);
   }
 
   handleSettingCurrentProject(projectId){
     this.setState({currentProject: projectId});
+  }
+
+  handleAddingNewProjectFromApi(newProject){
+    var newProjectId = v4();
+    var newMasterProjectList = Object.assign({}, this.state.masterProjectList, {
+      [newProjectId]: newProject
+    });
+    this.setState({ masterProjectList: newMasterProjectList});
+    // this.apiPostNewProject(newProject); // NEW LINE
+    console.log('--------', newProject);
   }
 
   handleAddingNewNote(note){
@@ -107,7 +142,8 @@ class App extends React.Component {
               projectList={this.state.masterProjectList}
               onSettingCurrentProject={this.handleSettingCurrentProject} />} />
             <Route path='/new-project' render={() => <NewProjectForm
-              onNewProjectCreation={this.handleAddingNewProject} />} />
+              onNewProjectCreation={this.handleAddingNewProject}
+              currentUser={this.state.currentUser} />} />
             <Route path='/details' render={() => <ProjectDetails
               currentProject={this.state.currentProject}
               projectList={this.state.masterProjectList}

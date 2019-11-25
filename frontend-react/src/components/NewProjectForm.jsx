@@ -17,7 +17,7 @@ class NewProjectForm extends React.Component {
 
   handleAddingNewProject(event) {
     event.preventDefault();
-    this.props.onNewProjectCreation({ title: this._title.value, description: this._description.value, notes: [] });
+    this.props.onNewProjectCreation({ title: this._title.value, description: this._description.value, notes: [], UserId: this.props.currentUser });
     this._title.value = '';
     this._description.value = '';
     this.setState({ redirect: true });
@@ -66,7 +66,8 @@ class NewProjectForm extends React.Component {
 }
 
 NewProjectForm.propTypes = {
-  onNewProjectCreation: PropTypes.func
+  onNewProjectCreation: PropTypes.func,
+  currentUser: PropTypes.string
 };
 
 export default NewProjectForm;
