@@ -30,7 +30,7 @@ _React Component Structure:_
   * _Run the command "dotnet watch run"_
     * _To visit Swagger documentation for the API, go to the URL "http://localhost:5000/swagger/" in a browser after starting the watcher (with "dotnet watch run")_
 
-_Once both the API and the react app are running, you may visit "http://localhost:8080/" in a browser and log in as our test user (username and password are both "test") to see sample data._
+_Once both the API and the react app are running, you may visit "http://localhost:8080/" in a browser and log in as the test user (username and password are both "test") to see sample data._
 
 ## Project Vision
 
@@ -38,19 +38,19 @@ _This project was primarily an opportunity to create a full-stack application us
 
 ## Technologies Used
 
-_C#_
-_ASP.NET Core_
-_JavaScript_
-_React_
-_Webpack_
-_ESLint_
-_Babel_
-_SQL_
-_Entity_
-_Swashbuckle/Swagger_
-_Materialize_
-_CSS_
-_HTML_
+* _C#_
+* _ASP.NET Core_
+* _JavaScript_
+* _React_
+* _Webpack_
+* _ESLint_
+* _Babel_
+* _SQL_
+* _Entity_
+* _Swashbuckle/Swagger_
+* _Materialize_
+* _CSS_
+* _HTML_
 
 ### License
 
