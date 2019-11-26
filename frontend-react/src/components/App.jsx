@@ -78,6 +78,7 @@ class App extends React.Component {
     this.setState({ currentProject: projectId });
   }
 
+  // --------> NEED TO FINISH/REFACTOR THIS METHOD <----------- //
   handleAddingNewProjectFromApi(newProject) {
     var newProjectId = v4();
     var newMasterProjectList = Object.assign({}, this.state.masterProjectList, {

@@ -16,8 +16,7 @@ namespace api.Models
     {
       builder.Entity<User>()
           .HasData(
-              new User { UserId = 1 },
-              new User { UserId = 2}
+              new User { UserId = 1, Username = "test", Password = "test", PasswordHash = "AQAAAAEAACcQAAAAEMMF2iEgitUOWSCaJ8bQ7iXn+vI+QB4nOo7MCBRCS6j5bDXHXLaQBX0TLz6E/IOFMA=="  }
           );
       builder.Entity<Project>()
           .HasData(
