@@ -31,10 +31,9 @@ class App extends React.Component {
   }
 
   getProjectList() { //to be called in handleLogin once user is successfully authenticated
-    let dataPromise = this.apiGetUserProjects(this.state.currentUser, this.state.token);
+    let dataPromise = this.apiHelper.apiGetUserProjects(this.state.currentUser, this.state.token);
 
     dataPromise.then((response) => {
-      console.log(JSON.parse(response));
       let JSONresponse = JSON.parse(response);
 
       for (let i = 0; i < JSONresponse.length; i++) {
@@ -51,12 +50,13 @@ class App extends React.Component {
 
   handleLogin(user) {
     let loginPromise = this.apiHelper.apiAttemptLogin(user);
-    loginPromise.then(function(response) {
-      console.log('WE ARE HERE', response);
-    });
-
-    //once user is authenticated, call getProjectList()
-    
+    loginPromise.then((response) => {
+      let parsedResponse = JSON.parse(response);
+      console.log(parsedResponse);
+      this.setState({currentUser: parsedResponse.userId});
+      this.setState({token: parsedResponse.token});
+      
+    }).then(() => {this.getProjectList()});  
   }
 
 
