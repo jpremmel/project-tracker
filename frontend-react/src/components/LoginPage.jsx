@@ -8,7 +8,6 @@ function LoginPage(props) {
   let _password = null;
 
   function handleLogin(event) {
-    console.log('handle login running');
     event.preventDefault();
     props.onLogin({ Username: _username.value, Password: _password.value });
     _username = '';

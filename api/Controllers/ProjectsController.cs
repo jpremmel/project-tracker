@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using api.Services;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
 
 namespace api.Controllers
 {
@@ -24,13 +25,26 @@ namespace api.Controllers
             _db = db;
         }
 
-        //GET /projects
+        //GET users/projects --> Get all the projects for the signed-in user
+        // [Authorize] ------------------------------------------------> Uncomment this once it's working
         [HttpGet]
-        public ActionResult<List<Project>> Get(int id)
+        public ActionResult<User> GetUserProjects()
         {
-            var results = _db.Projects.Where(p => p.UserId == id).Include(n => n.Notes).ToList();
-            return results;
+        var identity = (ClaimsIdentity)User.Identity;
+        Console.WriteLine(">>>>>>>>>>>>> USERSCONTROLLER - identity: " + identity.ToString());
+        var foundId = identity.FindFirst(ClaimTypes.Name).Value; // <--------- SOURCE OF ERROR!
+        Console.WriteLine(">>>>>>>>>>>>> USERSCONTROLLER - foundId: " + foundId);
+        User foundUser = _db.Users.Include(u => u.Projects).ThenInclude(u => u.Notes).FirstOrDefault(u => u.UserId == Convert.ToInt32(foundId));
+        return foundUser;
         }
+
+        //GET /projects
+        // [HttpGet]
+        // public ActionResult<List<Project>> Get(int id)
+        // {
+        //     var results = _db.Projects.Where(p => p.UserId == id).Include(n => n.Notes).ToList();
+        //     return results;
+        // }
 
         //POST /projects
         [Authorize]

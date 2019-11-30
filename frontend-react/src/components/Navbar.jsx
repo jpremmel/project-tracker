@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 
 function Navbar(props) {
 
-  console.log('Current user: ', props.currentUser);
   function clickLogout() {
     props.onLogout();
   }

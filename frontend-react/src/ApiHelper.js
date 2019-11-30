@@ -8,14 +8,14 @@ export default class ApiHelper {
     request.setRequestHeader('Content-Type', 'application/JSON');
     request.onreadystatechange = function () { // Call a function when the state changes.
       if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-        console.log('successfully created new user');
+        console.log('Successfully created new user');
       }
     };
     request.send(body);
   }
 
   apiAttemptLogin(user) {
-    console.log('user -----------', user);
+    console.log('USER ATTEMPTING LOGIN: ', user);
     return new Promise(function(resolve, reject) {
       let url = 'http://localhost:5000/users/authenticate';
       let request = new XMLHttpRequest();
@@ -35,13 +35,14 @@ export default class ApiHelper {
 
   apiGetUserProjects(token) {
     return new Promise(function (resolve, reject) {
-      let url = 'http://localhost:5000/users/projects';
+      let url = 'http://localhost:5000/projects';
       let request = new XMLHttpRequest();
       request.open('GET', url, true);
       request.setRequestHeader('Content-Type', 'application/JSON');
       request.setRequestHeader('Authorization', 'Bearer ' + token);
-      console.log(request);
+      console.log('API REQUEST TO GET USER\'S PROJECTS: ', request);
       request.onload = function () {
+        console.log('API RESPONSE TEXT: ', request.responseText);
         if (this.status === 200) {
           resolve(request.response);
           console.log("Successful API call to get user's projects");

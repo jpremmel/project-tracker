@@ -9,7 +9,6 @@ using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 
-
 namespace api.Controllers
 {
   [ApiController]
@@ -58,19 +57,5 @@ namespace api.Controllers
       _db.Users.Add(newUser);
       _db.SaveChanges();
     }
-
-    //GET users/projects
-    // [Authorize] ------------------------------------------------> Uncomment this once it's working
-    [HttpGet("projects")]
-    public ActionResult<User> GetUserProjects()
-    {
-      var identity = (ClaimsIdentity)User.Identity;
-      var foundId = identity.FindFirst(ClaimTypes.Name).Value;
-      Console.WriteLine(">>>>> USERSCONTROLLER - identity: " + identity);
-      Console.WriteLine(">>>>> USERSCONTROLLER - foundId: " + foundId);
-      User foundUser = _db.Users.Include(u => u.Projects).ThenInclude(u => u.Notes).FirstOrDefault(u => u.UserId == Convert.ToInt32(foundId));
-      return foundUser;
-    }
-
   }
 }

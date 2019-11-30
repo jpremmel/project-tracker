@@ -39,7 +39,7 @@ class App extends React.Component {
     let loginPromise = this.apiHelper.apiAttemptLogin(user);
     loginPromise.then((response) => {
       let parsedResponse = JSON.parse(response);
-      console.log(parsedResponse);
+      console.log('JSON RESPONSE (handleLogin): ', parsedResponse);
       this.setState({currentUser: parsedResponse.userId});
       this.setState({token: parsedResponse.token});
     }).then(() => {this.getProjectList()});  
@@ -47,12 +47,11 @@ class App extends React.Component {
   getProjectList() {
     let dataPromise = this.apiHelper.apiGetUserProjects(this.state.token);
     dataPromise.then((response) => {
-      let JSONresponse = JSON.parse(response);
-      for (let i = 0; i < JSONresponse.length; i++) {
-        console.log(JSONresponse[i]);
-        this.handleAddingProjectToState(JSONresponse[i]);
+      let parsedResponse = JSON.parse(response);
+      console.log('JSON RESPONSE (getProjectList): ', parsedResponse);
+      for (let i = 0; i < parsedResponse.length; i++) {
+        this.handleAddingProjectToState(parsedResponse[i]);
       }
-      console.log(this.state.masterProjectList);
     });
   }
   handleAddingProjectToState(project) {
@@ -64,7 +63,8 @@ class App extends React.Component {
   }
 
   handleLogout() {
-    this.setState({ currentUser: '' });
+    this.setState({ currentUser: 0 });
+    this.setState({ token: null });
   }
 
   handleAddingNewProject(newProject) {
@@ -74,7 +74,7 @@ class App extends React.Component {
     });
     this.setState({ masterProjectList: newMasterProjectList });
     this.apiPostNewProject(newProject); // NEW LINE
-    console.log('--------', newProject);
+    console.log('HANDLE ADDING NEW PROJECT: ', newProject);
   }
 
   handleSettingCurrentProject(projectId) {
@@ -96,6 +96,7 @@ class App extends React.Component {
   }
 
   render() {
+    console.log('APP STATE: ', this.state);
     return (
       <div>
         <Navbar onLogout={this.handleLogout} currentUser={this.state.currentUser} />
