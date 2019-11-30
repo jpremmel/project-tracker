@@ -12,9 +12,8 @@ using Microsoft.AspNetCore.Identity;
 
 namespace api.Controllers
 {
-  //[Authorize]
   [ApiController]
-  [Route("[controller]")]
+  [Route("users")]
   public class UsersController : ControllerBase
   {
     private IUserService _userService;
@@ -33,6 +32,7 @@ namespace api.Controllers
     //   return Ok(users);
     // }
 
+    //POST users/authenticate
     [AllowAnonymous]
     [HttpPost("authenticate")]
     public IActionResult Authenticate([FromBody] User userLoggingIn)
@@ -46,13 +46,12 @@ namespace api.Controllers
       return Ok(user);
     }
 
-
+    //POST users/create
     [AllowAnonymous]
     [HttpPost("create")]
     public void Create([FromBody] User newUser)
     {
-      //hash
-      //set password to null
+      //only saved hashed password in database
       var passwordHasher = new PasswordHasher<api.Models.User>();
       newUser.PasswordHash = passwordHasher.HashPassword(newUser, newUser.Password);
       newUser.Password = null;
@@ -60,12 +59,15 @@ namespace api.Controllers
       _db.SaveChanges();
     }
 
-    [Authorize]
+    //GET users/projects
+    // [Authorize] ------------------------------------------------> Uncomment this once it's working
     [HttpGet("projects")]
     public ActionResult<User> GetUserProjects()
     {
       var identity = (ClaimsIdentity)User.Identity;
       var foundId = identity.FindFirst(ClaimTypes.Name).Value;
+      Console.WriteLine(">>>>> USERSCONTROLLER - identity: " + identity);
+      Console.WriteLine(">>>>> USERSCONTROLLER - foundId: " + foundId);
       User foundUser = _db.Users.Include(u => u.Projects).ThenInclude(u => u.Notes).FirstOrDefault(u => u.UserId == Convert.ToInt32(foundId));
       return foundUser;
     }

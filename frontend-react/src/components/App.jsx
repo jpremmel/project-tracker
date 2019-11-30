@@ -15,7 +15,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentUser: '',
+      currentUser: 0,
       currentProject: null,
       masterProjectList: {},
       token: null
@@ -30,24 +30,11 @@ class App extends React.Component {
     this.handleCreateAcct = this.handleCreateAcct.bind(this);
   }
 
-  getProjectList() { //to be called in handleLogin once user is successfully authenticated
-    let dataPromise = this.apiHelper.apiGetUserProjects(this.state.currentUser, this.state.token);
-
-    dataPromise.then((response) => {
-      let JSONresponse = JSON.parse(response);
-
-      for (let i = 0; i < JSONresponse.length; i++) {
-        console.log(JSONresponse[i]);
-        this.handleAddingNewProjectFromApi(JSONresponse[i]);
-      }
-      console.log(this.state.masterProjectList);
-    });
-  }
-
   handleCreateAcct(newUser) {
     this.apiHelper.apiPostNewUser(newUser);
   }
 
+  //NEXT 3 METHODS: log in, get user's projects from API, update master project list in state with user's projects
   handleLogin(user) {
     let loginPromise = this.apiHelper.apiAttemptLogin(user);
     loginPromise.then((response) => {
@@ -55,10 +42,26 @@ class App extends React.Component {
       console.log(parsedResponse);
       this.setState({currentUser: parsedResponse.userId});
       this.setState({token: parsedResponse.token});
-      
     }).then(() => {this.getProjectList()});  
   }
-
+  getProjectList() {
+    let dataPromise = this.apiHelper.apiGetUserProjects(this.state.token);
+    dataPromise.then((response) => {
+      let JSONresponse = JSON.parse(response);
+      for (let i = 0; i < JSONresponse.length; i++) {
+        console.log(JSONresponse[i]);
+        this.handleAddingProjectToState(JSONresponse[i]);
+      }
+      console.log(this.state.masterProjectList);
+    });
+  }
+  handleAddingProjectToState(project) {
+    var projectId = v4();
+    var newMasterProjectList = Object.assign({}, this.state.masterProjectList, {
+      [projectId]: project
+    });
+    this.setState({ masterProjectList: newMasterProjectList });
+  }
 
   handleLogout() {
     this.setState({ currentUser: '' });
@@ -76,17 +79,6 @@ class App extends React.Component {
 
   handleSettingCurrentProject(projectId) {
     this.setState({ currentProject: projectId });
-  }
-
-  // --------> NEED TO FINISH/REFACTOR THIS METHOD <----------- //
-  handleAddingNewProjectFromApi(newProject) {
-    var newProjectId = v4();
-    var newMasterProjectList = Object.assign({}, this.state.masterProjectList, {
-      [newProjectId]: newProject
-    });
-    this.setState({ masterProjectList: newMasterProjectList });
-    // this.apiPostNewProject(newProject); // NEW LINE
-    console.log('--------', newProject);
   }
 
   handleAddingNewNote(note) {

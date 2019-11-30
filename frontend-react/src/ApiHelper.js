@@ -1,7 +1,7 @@
 export default class ApiHelper {
 
   apiPostNewUser(newUser) {
-    let url = 'http://localhost:5000/Users/create';
+    let url = 'http://localhost:5000/users/create';
     let request = new XMLHttpRequest(); 
     let body = JSON.stringify(newUser);
     request.open('POST', url, true);
@@ -17,7 +17,7 @@ export default class ApiHelper {
   apiAttemptLogin(user) {
     console.log('user -----------', user);
     return new Promise(function(resolve, reject) {
-      let url = 'http://localhost:5000/Users/authenticate';
+      let url = 'http://localhost:5000/users/authenticate';
       let request = new XMLHttpRequest();
       let body = JSON.stringify(user);
       request.open('POST', url, true);
@@ -33,25 +33,29 @@ export default class ApiHelper {
     });
   }
 
-  apiGetUserProjects(user, token) {
+  apiGetUserProjects(token) {
     return new Promise(function (resolve, reject) {
-      let url = `http://localhost:5000/api?id=${user}`;    //token????
+      let url = 'http://localhost:5000/users/projects';
       let request = new XMLHttpRequest();
+      request.open('GET', url, true);
+      request.setRequestHeader('Content-Type', 'application/JSON');
+      request.setRequestHeader('Authorization', 'Bearer ' + token);
+      console.log(request);
       request.onload = function () {
         if (this.status === 200) {
           resolve(request.response);
+          console.log("Successful API call to get user's projects");
         } else {
           reject(Error(request.statusText));
         }
       };
-      request.open('GET', url, true);
       request.send();
     });
   }
 
   apiPostNewProject(newProject) {
-    console.log('apiPOst new project running');
-    let url = 'http://localhost:5000/api';
+    console.log('apiPost new project running');
+    let url = 'http://localhost:5000/projects';
     let body = JSON.stringify(newProject);
     var xhr = new XMLHttpRequest();
     xhr.open('POST', url, true);

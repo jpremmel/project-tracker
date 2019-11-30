@@ -45,7 +45,7 @@ function Navbar(props) {
 
 Navbar.propTypes = {
   onLogout: PropTypes.func,
-  currentUser: PropTypes.string
+  currentUser: PropTypes.number
 };
 
 export default Navbar;
