@@ -62,11 +62,6 @@ class App extends React.Component {
     this.setState({ masterProjectList: newMasterProjectList });
   }
 
-  handleLogout() {
-    this.setState({ currentUser: 0 });
-    this.setState({ token: null });
-  }
-
   handleAddingNewProject(newProject) {
     var newProjectId = v4();
     var newMasterProjectList = Object.assign({}, this.state.masterProjectList, {
@@ -77,10 +72,6 @@ class App extends React.Component {
     console.log('HANDLE ADDING NEW PROJECT: ', newProject);
   }
 
-  handleSettingCurrentProject(projectId) {
-    this.setState({ currentProject: projectId });
-  }
-
   handleAddingNewNote(note) {
     note.timeWritten = (note.timeWritten);
     const copyMasterProjectList = cloneDeep(this.state.masterProjectList); //use lodash to make a deep copy
@@ -88,11 +79,22 @@ class App extends React.Component {
     this.setState({ masterProjectList: copyMasterProjectList });
   }
 
+  handleSettingCurrentProject(projectId) {
+    this.setState({ currentProject: projectId });
+  }
+
   handleDeletingProject() {
     let copyMasterProjectList = cloneDeep(this.state.masterProjectList); //use lodash to make a deep copy
     delete copyMasterProjectList[this.state.currentProject];
     this.setState({ masterProjectList: copyMasterProjectList });
     this.setState({ currentProject: null });
+  }
+
+  handleLogout() {
+    this.setState({ currentUser: 0 });
+    this.setState({ currentProject: null });
+    this.setState({ masterProjectList: {} });
+    this.setState({ token: null });
   }
 
   render() {
