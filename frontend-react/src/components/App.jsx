@@ -34,7 +34,7 @@ class App extends React.Component {
     this.apiHelper.apiPostNewUser(newUser);
   }
 
-  //NEXT 3 METHODS: log in, get user's projects from API, update master project list in state with user's projects
+  //NEXT 3 METHODS: log in, get user's projects from API, update masterProjectList in state with user's projects
   handleLogin(user) {
     let loginPromise = this.apiHelper.apiAttemptLogin(user);
     loginPromise.then((response) => {

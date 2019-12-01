@@ -64,7 +64,6 @@ namespace api.Services
 
     public void Create(User newUser)
     {
-      Console.WriteLine(">>>>>>>>>>>>>>>> NEW TOKEN: " + newUser.Token);
       _db.Users.Add(newUser);
       _db.SaveChanges();
     }

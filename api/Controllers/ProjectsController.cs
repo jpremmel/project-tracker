@@ -26,25 +26,15 @@ namespace api.Controllers
         }
 
         //GET users/projects --> Get all the projects for the signed-in user
-        // [Authorize] ------------> Uncomment this once it's working
+        [Authorize]
         [HttpGet]
-        public ActionResult<User> GetUserProjects()
+        public ActionResult<IEnumerable<Project>> GetUserProjects()
         {
         var identity = (ClaimsIdentity)User.Identity;
-        Console.WriteLine(">>>>>>>>>>>>> USERSCONTROLLER - identity: " + identity.Name);
-        var foundId = identity.FindFirst(ClaimTypes.Name).Value; // <--------- SOURCE OF ERROR! //
-        Console.WriteLine(">>>>>>>>>>>>> USERSCONTROLLER - foundId: " + foundId);
-        User foundUser = _db.Users.Include(u => u.Projects).ThenInclude(u => u.Notes).FirstOrDefault(u => u.UserId == Convert.ToInt32(foundId));
-        return foundUser;
+        var foundId = identity.FindFirst(ClaimTypes.Name).Value;
+        var projects = _db.Projects.Where(p => p.UserId.ToString() == foundId).Include(p => p.Notes).ToList();
+        return projects;
         }
-
-        //GET /projects
-        // [HttpGet]
-        // public ActionResult<List<Project>> Get(int id)
-        // {
-        //     var results = _db.Projects.Where(p => p.UserId == id).Include(n => n.Notes).ToList();
-        //     return results;
-        // }
 
         //POST /projects
         [Authorize]
