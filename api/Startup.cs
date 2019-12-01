@@ -82,6 +82,8 @@ namespace api
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Projects API V1");
             });
 
+            app.UseAuthentication();
+
             app.UseCors(x => x
                 .AllowAnyOrigin()
                 .AllowAnyMethod()
