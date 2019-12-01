@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 
 function Navbar(props) {
 
-  console.log('Current user: ', props.currentUser);
   function clickLogout() {
     props.onLogout();
   }
@@ -45,7 +44,7 @@ function Navbar(props) {
 
 Navbar.propTypes = {
   onLogout: PropTypes.func,
-  currentUser: PropTypes.string
+  currentUser: PropTypes.number
 };
 
 export default Navbar;

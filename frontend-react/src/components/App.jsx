@@ -15,7 +15,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentUser: '',
+      currentUser: 0,
       currentProject: null,
       masterProjectList: {},
       token: null
@@ -30,38 +30,36 @@ class App extends React.Component {
     this.handleCreateAcct = this.handleCreateAcct.bind(this);
   }
 
-  getProjectList() { //to be called in handleLogin once user is successfully authenticated
-    let dataPromise = this.apiHelper.apiGetUserProjects(this.state.currentUser, this.state.token);
-
-    dataPromise.then((response) => {
-      let JSONresponse = JSON.parse(response);
-
-      for (let i = 0; i < JSONresponse.length; i++) {
-        console.log(JSONresponse[i]);
-        this.handleAddingNewProjectFromApi(JSONresponse[i]);
-      }
-      console.log(this.state.masterProjectList);
-    });
-  }
-
   handleCreateAcct(newUser) {
     this.apiHelper.apiPostNewUser(newUser);
   }
 
+  //NEXT 3 METHODS: log in, get user's projects from API, update masterProjectList in state with user's projects
   handleLogin(user) {
     let loginPromise = this.apiHelper.apiAttemptLogin(user);
     loginPromise.then((response) => {
       let parsedResponse = JSON.parse(response);
-      console.log(parsedResponse);
+      console.log('JSON RESPONSE (handleLogin): ', parsedResponse);
       this.setState({currentUser: parsedResponse.userId});
       this.setState({token: parsedResponse.token});
-      
     }).then(() => {this.getProjectList()});  
   }
-
-
-  handleLogout() {
-    this.setState({ currentUser: '' });
+  getProjectList() {
+    let dataPromise = this.apiHelper.apiGetUserProjects(this.state.token);
+    dataPromise.then((response) => {
+      let parsedResponse = JSON.parse(response);
+      console.log('JSON RESPONSE (getProjectList): ', parsedResponse);
+      for (let i = 0; i < parsedResponse.length; i++) {
+        this.handleAddingProjectToState(parsedResponse[i]);
+      }
+    });
+  }
+  handleAddingProjectToState(project) {
+    var projectId = v4();
+    var newMasterProjectList = Object.assign({}, this.state.masterProjectList, {
+      [projectId]: project
+    });
+    this.setState({ masterProjectList: newMasterProjectList });
   }
 
   handleAddingNewProject(newProject) {
@@ -71,22 +69,7 @@ class App extends React.Component {
     });
     this.setState({ masterProjectList: newMasterProjectList });
     this.apiPostNewProject(newProject); // NEW LINE
-    console.log('--------', newProject);
-  }
-
-  handleSettingCurrentProject(projectId) {
-    this.setState({ currentProject: projectId });
-  }
-
-  // --------> NEED TO FINISH/REFACTOR THIS METHOD <----------- //
-  handleAddingNewProjectFromApi(newProject) {
-    var newProjectId = v4();
-    var newMasterProjectList = Object.assign({}, this.state.masterProjectList, {
-      [newProjectId]: newProject
-    });
-    this.setState({ masterProjectList: newMasterProjectList });
-    // this.apiPostNewProject(newProject); // NEW LINE
-    console.log('--------', newProject);
+    console.log('HANDLE ADDING NEW PROJECT: ', newProject);
   }
 
   handleAddingNewNote(note) {
@@ -96,6 +79,10 @@ class App extends React.Component {
     this.setState({ masterProjectList: copyMasterProjectList });
   }
 
+  handleSettingCurrentProject(projectId) {
+    this.setState({ currentProject: projectId });
+  }
+
   handleDeletingProject() {
     let copyMasterProjectList = cloneDeep(this.state.masterProjectList); //use lodash to make a deep copy
     delete copyMasterProjectList[this.state.currentProject];
@@ -103,7 +90,15 @@ class App extends React.Component {
     this.setState({ currentProject: null });
   }
 
+  handleLogout() {
+    this.setState({ currentUser: 0 });
+    this.setState({ currentProject: null });
+    this.setState({ masterProjectList: {} });
+    this.setState({ token: null });
+  }
+
   render() {
+    console.log('APP STATE: ', this.state);
     return (
       <div>
         <Navbar onLogout={this.handleLogout} currentUser={this.state.currentUser} />
