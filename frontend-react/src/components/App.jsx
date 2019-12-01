@@ -101,7 +101,9 @@ class App extends React.Component {
     console.log('APP STATE: ', this.state);
     return (
       <div>
-        <Navbar onLogout={this.handleLogout} currentUser={this.state.currentUser} />
+        <Navbar 
+          onLogout={this.handleLogout} 
+          currentUser={this.state.currentUser} />
         <div className='container'>
           <Switch>
             <Route exact path='/' render={() => <ProjectList
