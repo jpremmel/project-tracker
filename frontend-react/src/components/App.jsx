@@ -68,7 +68,7 @@ class App extends React.Component {
       [newProjectId]: newProject
     });
     this.setState({ masterProjectList: newMasterProjectList });
-    this.apiPostNewProject(newProject); // NEW LINE
+    this.apiHelper.apiPostNewProject(newProject, this.state.token);
     console.log('HANDLE ADDING NEW PROJECT: ', newProject);
   }
 

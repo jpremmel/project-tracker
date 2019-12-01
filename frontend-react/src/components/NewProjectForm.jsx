@@ -67,7 +67,7 @@ class NewProjectForm extends React.Component {
 
 NewProjectForm.propTypes = {
   onNewProjectCreation: PropTypes.func,
-  currentUser: PropTypes.string
+  currentUser: PropTypes.number
 };
 
 export default NewProjectForm;

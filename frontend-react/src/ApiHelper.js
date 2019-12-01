@@ -42,10 +42,9 @@ export default class ApiHelper {
       request.setRequestHeader('Authorization', 'Bearer ' + token);
       console.log('API REQUEST TO GET USER\'S PROJECTS: ', request);
       request.onload = function () {
-        console.log('API RESPONSE TEXT: ', request.responseText);
         if (this.status === 200) {
           resolve(request.response);
-          console.log("Successful API call to get user's projects");
+          console.log('Successful API call to get user\'s projects');
         } else {
           reject(Error(request.statusText));
         }
@@ -54,19 +53,20 @@ export default class ApiHelper {
     });
   }
 
-  apiPostNewProject(newProject) {
+  apiPostNewProject(newProject, token) {
     console.log('apiPost new project running');
     let url = 'http://localhost:5000/projects';
+    var request = new XMLHttpRequest();
     let body = JSON.stringify(newProject);
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', url, true);
-    xhr.setRequestHeader('Content-Type', 'application/JSON');
-    xhr.onreadystatechange = function () { // Call a function when the state changes.
+    request.open('POST', url, true);
+    request.setRequestHeader('Content-Type', 'application/JSON');
+    request.setRequestHeader('Authorization', 'Bearer ' + token);
+    request.onreadystatechange = function () { // Call a function when the state changes.
       if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-        // Request finished. Do processing here.
+        console.log('Successful API call to post new project to database');
       }
     };
-    xhr.send(body);
+    request.send(body);
   }
 
 
