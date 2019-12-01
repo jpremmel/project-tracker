@@ -24,7 +24,6 @@ namespace api.Services
   {
     private readonly ProjectsContext _db;
     private List<User> _users;
-
     private readonly AppSettings _appSettings;
 
     public UserService(IOptions<AppSettings> appSettings, ProjectsContext db)
@@ -57,18 +56,15 @@ namespace api.Services
 
         //remove password before returning
         user.PasswordHash = null;
-
         return user;
-        
       } else {
         return null;
       }
-      
     }
 
     public void Create(User newUser)
     {
-      Console.WriteLine(">>>>>>>>>>>>>>>> " + newUser.Token);
+      Console.WriteLine(">>>>>>>>>>>>>>>> NEW TOKEN: " + newUser.Token);
       _db.Users.Add(newUser);
       _db.SaveChanges();
     }

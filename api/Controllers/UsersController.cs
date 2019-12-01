@@ -8,6 +8,8 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace api.Controllers
 {
@@ -36,10 +38,9 @@ namespace api.Controllers
     [HttpPost("authenticate")]
     public IActionResult Authenticate([FromBody] User userLoggingIn)
     {
-      Console.WriteLine(userLoggingIn.Username);
-      Console.WriteLine(userLoggingIn.PasswordHash);
       var user = _userService.Authenticate(userLoggingIn.Username, userLoggingIn.Password);
-
+      Console.WriteLine(">>>>>>>>>>>>>>>>>>> AUTHENTICATED USER ID: " + user.UserId);
+      Console.WriteLine(">>>>>>>>>>>>>>>>>>> AUTHENTICATED USER: " + user.Username);
       if (user == null)
         return BadRequest(new { message = "Username or password is incorrect" });
       return Ok(user);
