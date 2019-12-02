@@ -4,12 +4,11 @@ import 'materialize-css/dist/css/materialize.min.css';
 import { Link } from 'react-router-dom';
 
 function Project(props) {
-  console.log('notes in project.jx', props.notes);
 
   function seeProjectDetails()
   {
     let projectId = props.projectId;
-    console.log('hi', projectId);
+    console.log('PROJECT ID: ', projectId);
     props.onSettingCurrentProject(projectId);
   }
 

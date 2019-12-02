@@ -55,28 +55,33 @@ class App extends React.Component {
     });
   }
   handleAddingProjectToState(project) {
-    var projectId = v4();
-    var newMasterProjectList = Object.assign({}, this.state.masterProjectList, {
+    let projectId = v4();
+    let newMasterProjectList = Object.assign({}, this.state.masterProjectList, {
       [projectId]: project
     });
     this.setState({ masterProjectList: newMasterProjectList });
   }
 
   handleAddingNewProject(newProject) {
-    var newProjectId = v4();
-    var newMasterProjectList = Object.assign({}, this.state.masterProjectList, {
-      [newProjectId]: newProject
+    let addProjectPromise = this.apiHelper.apiPostNewProject(newProject, this.state.token);
+    addProjectPromise.then((response) => {
+      newProject.projectId = JSON.parse(response);
+      let newProjectId = v4();
+      let newMasterProjectList = Object.assign({}, this.state.masterProjectList, {
+        [newProjectId]: newProject
+      });
+      this.setState({ masterProjectList: newMasterProjectList });
     });
-    this.setState({ masterProjectList: newMasterProjectList });
-    this.apiHelper.apiPostNewProject(newProject, this.state.token);
-    console.log('HANDLE ADDING NEW PROJECT: ', newProject);
   }
 
-  handleAddingNewNote(note) {
-    note.timeWritten = (note.timeWritten);
-    const copyMasterProjectList = cloneDeep(this.state.masterProjectList); //use lodash to make a deep copy
-    copyMasterProjectList[this.state.currentProject].notes.push(note);
-    this.setState({ masterProjectList: copyMasterProjectList });
+  handleAddingNewNote(newNote) {
+    newNote.timeWritten = (newNote.timeWritten); //Is this line doing anything???
+    let addNotePromise = this.apiHelper.apiPostNewNote(newNote, this.state.token);
+    addNotePromise.then(() => {
+      const copyMasterProjectList = cloneDeep(this.state.masterProjectList); //use lodash to make a deep copy
+      copyMasterProjectList[this.state.currentProject].notes.push(newNote);
+      this.setState({ masterProjectList: copyMasterProjectList });
+    });
   }
 
   handleSettingCurrentProject(projectId) {

@@ -18,7 +18,7 @@ function ProjectList(props) {
       <div>
         {Object.keys(props.projectList).map((projectId) => {
           var project = props.projectList[projectId];
-          { console.log('PROJECTID =', project); }
+          { console.log('PROJECT =', project); }
           return <Project title={project.title}
             description={project.description}
             key={projectId}

@@ -39,13 +39,17 @@ namespace api.Controllers
         //POST /projects
         [Authorize]
         [HttpPost]
-        public void Post([FromBody] Project newProject)
+        public ActionResult<int> Post([FromBody] Project newProject)
         {
             var identity = (ClaimsIdentity)User.Identity;
             var foundId = identity.FindFirst(ClaimTypes.Name).Value;
             newProject.UserId = Convert.ToInt32(foundId);
             _db.Projects.Add(newProject);
             _db.SaveChanges();
+            var newProjectInDb = _db.Projects
+                .Where(p => p.UserId == newProject.UserId)
+                .FirstOrDefault(p => p.Title == newProject.Title && p.Description == newProject.Description);
+            return newProjectInDb.ProjectId;
         }
     }
 }

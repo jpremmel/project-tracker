@@ -10,14 +10,13 @@ function ProjectDetails(props) {
 
   function addNewNote(event) {
     event.preventDefault();
-    props.onAddingNewNote({content: _note.value, id: v4(), timeWritten: new Moment().inspect()});
+    props.onAddingNewNote({content: _note.value, id: v4(), projectId: props.projectList[props.currentProject].projectId, timeWritten: new Moment().inspect()});
     _note.value = '';
   }
 
   function deleteProject() {
     props.onDeletingProject(props.currentProject);
   }
-
 
   var btnParent = {
     textAlign: 'center',
@@ -33,7 +32,6 @@ function ProjectDetails(props) {
 
   if(props.currentProject){
     let project = props.projectList[props.currentProject];
-  
     return (
       <div>
         <h1 style={headerStyle}>{project.title}</h1>
