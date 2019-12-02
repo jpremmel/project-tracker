@@ -30,6 +30,7 @@ namespace api.Controllers
     [HttpPost]
     public void Post([FromBody] Note newNote)
     {
+      Console.WriteLine(">>>>>>>>>>> DateTimeString (backend model): " + newNote.DateTimeString);
       var identity = (ClaimsIdentity)User.Identity;
       var foundId = identity.FindFirst(ClaimTypes.Name).Value;
       _db.Notes.Add(newNote);

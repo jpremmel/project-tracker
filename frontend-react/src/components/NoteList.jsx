@@ -9,7 +9,7 @@ function NoteList(props) {
         <Note 
           content={thisNote.content}
           key={index} 
-          timeWritten={thisNote.dateTimeString}/>
+          dateTimeString={thisNote.dateTimeString}/>
       )}
     </div>
   );

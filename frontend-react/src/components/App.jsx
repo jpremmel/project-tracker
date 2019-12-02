@@ -75,7 +75,7 @@ class App extends React.Component {
   }
 
   handleAddingNewNote(newNote) {
-    newNote.timeWritten = (newNote.timeWritten); //Is this line doing anything???
+    console.log('NEW NOTE TO ADD: ', newNote);
     let addNotePromise = this.apiHelper.apiPostNewNote(newNote, this.state.token);
     addNotePromise.then(() => {
       const copyMasterProjectList = cloneDeep(this.state.masterProjectList); //use lodash to make a deep copy

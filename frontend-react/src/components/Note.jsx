@@ -4,7 +4,7 @@ import moment from 'moment';
 
 function Note(props) {
   
-  let written = moment(props.timeWritten).calendar();
+  let written = moment(props.dateTimeString).calendar();
 
   return(
     <p>{props.content} <em>(Note written: {written})</em></p>
@@ -13,7 +13,7 @@ function Note(props) {
 
 Note.propTypes = {
   content: PropTypes.string,
-  timeWritten: PropTypes.string
+  dateTimeString: PropTypes.object
 };
 
 export default Note;
