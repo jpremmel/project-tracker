@@ -14,7 +14,7 @@
   "license": "ISC",
   "dependencies": {
     "css-loader": "^3.2.1",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "materialize-css": "1.0.0-rc.2",
     "moment": "^2.18.1",
     "prop-types": "^15.7.2",
